@@ -1,0 +1,9 @@
+{
+  "watchFolder": "./less",
+  "outputFolder": "./public",
+  "mainFile": "global.less",
+  "includeHidden": false,
+  "sourceMap": false,
+  "runOnce": false,
+  "enableJs": true
+}
