@@ -1,7 +1,8 @@
 const { User } = require('../db');
+const { authByToken } = require('../api/jwt');
 const requireToken = async (req, res, next) => {
   try {
-    const user = await User.byToken(req.headers.authorization);
+    const user = authByToken(req.headers.token);
     req.user = user;
     next();
   } catch (error) {
