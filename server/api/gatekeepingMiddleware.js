@@ -1,5 +1,4 @@
-const { User } = require('../db');
-const { authByToken } = require('../api/jwt');
+const { authByToken } = require('./jwt.js');
 const requireToken = async (req, res, next) => {
   try {
     const user = authByToken(req.headers.token);

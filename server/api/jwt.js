@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const { User, Shelter } = require('../db');
+const { User } = require('../db');
 
 const jwtStr = process.env.JWT || 'shelter';
 const saltRounds = Number(process.env.SALT || 10);

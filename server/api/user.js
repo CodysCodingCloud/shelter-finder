@@ -1,7 +1,7 @@
 const router = require('express').Router();
-const { User, Shelter } = require('../db');
-const { hashPassword, authenticateLogin } = require('../api/jwt');
-const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
+const { User } = require('../db');
+const { hashPassword, authenticateLogin } = require('./jwt.js');
+// const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
 // const Sequelize = require('sequelize')
 
 // register user
