@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // import { createUser } from '../store/userSlice';
 
 export default function Register() {
   const user = useAppSelector((state) => state.user);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   // const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
