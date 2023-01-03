@@ -1,8 +1,8 @@
-import app from './app';
+const app = require('./app');
 // const db = require('./db');
 const dotenv = require('dotenv').config();
 const port = process.env.PORT || 5000;
-import conn from './db';
+const { conn } = require('./db');
 conn();
 async function init() {
   try {

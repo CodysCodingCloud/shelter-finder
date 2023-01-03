@@ -14,7 +14,7 @@ export const requireToken = async (
   }
 };
 export const isAdmin = async (
-  req: Request & { user: any },,
+  req: Request & { user: any },
   res: Response,
   next: NextFunction
 ) => {
