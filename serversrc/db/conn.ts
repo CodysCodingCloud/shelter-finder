@@ -1,6 +1,7 @@
 import mongoose, { connect } from 'mongoose';
 mongoose.set('strictQuery', false);
 const ATLAS_URI: string = process.env.ATLAS_URI as string;
+
 const conn = async () => {
   try {
     const db = await connect(ATLAS_URI);

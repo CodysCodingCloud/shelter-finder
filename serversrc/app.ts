@@ -1,7 +1,7 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import path from 'path';
-const app: Application = express();
 import bodyParser from 'body-parser';
+const app: Application = express();
 
 //middleware
 app.use(express.static(path.join(__dirname, '..', 'build')));
@@ -21,12 +21,14 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });
 });
-// app.get('/*', (req, res) => {
-//   if (process.env.NODE_ENV === 'production') {
-//     res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-//   } else {
-//     res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
-//   }
-// });
+app.get('/*', (req: Request, res: Response) => {
+  if (process.env.NODE_ENV === 'production') {
+    res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
+  } else {
+    res.sendFile(
+      path.join(__dirname, '..', 'frontend', 'public', 'index.html')
+    );
+  }
+});
 
-export default app;
+module.exports = app;

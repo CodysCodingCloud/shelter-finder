@@ -1,4 +1,4 @@
-const { authByToken } = require('./jwt.js');
+import { authByToken } from './jwt';
 import { Request, Response, NextFunction } from 'express';
 export const requireToken = async (
   req: Request & { user: any },
@@ -6,7 +6,7 @@ export const requireToken = async (
   next: NextFunction
 ) => {
   try {
-    const user = authByToken(req.headers.token);
+    const user = authByToken(req.headers.token as String);
     req.user = user;
     next();
   } catch (error) {

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 const { User } = require('../db');
-const { hashPassword, authenticateLogin } = require('./jwt.js');
+import { hashPassword, authenticateLogin } from './jwt';
 // const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
 // const Sequelize = require('sequelize')
 

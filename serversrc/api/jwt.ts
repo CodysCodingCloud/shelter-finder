@@ -6,7 +6,7 @@ const { User } = require('../db');
 const jwtStr: String = process.env.JWT || 'shelter';
 const saltRounds: Number = Number(process.env.SALT || 10);
 
-const authByToken = async (token: String) => {
+export const authByToken = async (token: String) => {
   try {
     jwt.verify(token, jwtStr);
     const user = await User.findOne(jwt.decode(token).email, {});
@@ -22,11 +22,11 @@ const authByToken = async (token: String) => {
     throw error;
   }
 };
-const hashPassword = async ({ password }: { password: String }) => {
+export const hashPassword = async ({ password }: { password: String }) => {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
   password = hashedPassword;
 };
-const authenticateLogin = async ({
+export const authenticateLogin = async ({
   email,
   password,
 }: {
@@ -43,9 +43,4 @@ const authenticateLogin = async ({
   const error = Error('bad credentials') as Error & { status?: Number };
   error.status = 401;
   throw error;
-};
-module.exports = {
-  authByToken,
-  hashPassword,
-  authenticateLogin,
 };
