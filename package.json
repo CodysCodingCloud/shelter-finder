@@ -12,7 +12,10 @@
   "scripts": {
     "start": "node server",
     "dev": "nodemon serversrc",
-    "build": "tsc-p ."
+    "build": "tsc-p .",
+    "client": "npm start --prefix frontend",
+    "clientbuild": "npm run build --prefix frontend",
+    "builds": "npm run build && npm runclientbuild"
   },
   "browserslist": {
     "production": [
