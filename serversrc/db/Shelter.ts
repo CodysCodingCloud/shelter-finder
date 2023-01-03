@@ -1,10 +1,20 @@
-const mongoose = require('mongoose');
-
-const shelterSchema = mongoose.Schema(
+import mongoose, { Schema, model, connect, Types } from 'mongoose';
+interface IShelter {
+  user: Types.ObjectId;
+  name: string;
+  addressLine1: string;
+  addressLine2?: string;
+  stateAbbreviation: string;
+  postal: string;
+  openSpace: Number;
+  capacity: Number;
+  requirements?: string;
+}
+const shelterSchema = new Schema<IShelter>(
   {
     user: {
       required: [true, 'Please add a user'],
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
     },
     name: {
@@ -43,4 +53,4 @@ const shelterSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model('Shelter', shelterSchema);
+module.exports = model<IShelter>('Shelter', shelterSchema);

@@ -1,7 +1,7 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const bodyParser = require('body-parser');
+import express, { Application, Request, Response, NextFunction } from 'express';
+import path from 'path';
+const app: Application = express();
+import bodyParser from 'body-parser';
 
 //middleware
 app.use(express.static(path.join(__dirname, '..', 'build')));
@@ -10,7 +10,7 @@ app.use(express.json());
 app.use('/api', require('./api'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use((err, req, res, next) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   // console.error(err.stack);
   // res.status(err.status || 500).send(err.message || 'Internal server error');
   const statusCode = res.statusCode || 500;
@@ -29,4 +29,4 @@ app.use((err, req, res, next) => {
 //   }
 // });
 
-module.exports = app;
+export default app;

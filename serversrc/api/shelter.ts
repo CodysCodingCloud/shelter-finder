@@ -1,4 +1,5 @@
-const router = require('express').Router();
+import { Router } from 'express';
+const router = Router();
 const { User, Shelter } = require('../db');
 // const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
 // const Sequelize = require('sequelize')

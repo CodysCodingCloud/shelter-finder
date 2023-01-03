@@ -1,4 +1,4 @@
-const conn = require('./conn');
+import conn from './conn';
 const User = require('./User');
 const Shelter = require('./Shelter');
 

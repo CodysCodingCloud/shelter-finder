@@ -1,4 +1,5 @@
-const router = require('express').Router();
+import { Router } from 'express';
+const router = Router();
 const { User } = require('../db');
 const { hashPassword, authenticateLogin } = require('./jwt.js');
 // const { isAdmin, requireToken } = require('./gatekeepingMiddleware');

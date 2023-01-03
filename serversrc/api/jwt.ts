@@ -3,30 +3,36 @@ const bcrypt = require('bcrypt');
 
 const { User } = require('../db');
 
-const jwtStr = process.env.JWT || 'shelter';
-const saltRounds = Number(process.env.SALT || 10);
+const jwtStr: String = process.env.JWT || 'shelter';
+const saltRounds: Number = Number(process.env.SALT || 10);
 
-const authByToken = async (token) => {
+const authByToken = async (token: String) => {
   try {
     jwt.verify(token, jwtStr);
     const user = await User.findOne(jwt.decode(token).email, {});
     if (user) {
       return user;
     }
-    const error = Error('bad credentials');
+    const error = new Error('bad credentials') as Error & { status?: Number };
     error.status = 401;
     throw error;
   } catch (err) {
-    const error = Error('bad credentials');
+    const error = Error('bad credentials') as Error & { status?: Number };
     error.status = 401;
     throw error;
   }
 };
-const hashPassword = async (user, options) => {
-  const hashedPassword = await bcrypt.hash(user.password, saltRounds);
-  user.password = hashedPassword;
+const hashPassword = async ({ password }: { password: String }) => {
+  const hashedPassword = await bcrypt.hash(password, saltRounds);
+  password = hashedPassword;
 };
-const authenticateLogin = async ({ email, password }) => {
+const authenticateLogin = async ({
+  email,
+  password,
+}: {
+  email: String;
+  password: String;
+}) => {
   const user = await User.findOne({
     email,
   });
@@ -34,7 +40,7 @@ const authenticateLogin = async ({ email, password }) => {
     var token = jwt.sign({ email: user.email }, jwtStr);
     return token;
   }
-  const error = Error('bad credentials');
+  const error = Error('bad credentials') as Error & { status?: Number };
   error.status = 401;
   throw error;
 };
