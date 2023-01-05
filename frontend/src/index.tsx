@@ -10,6 +10,7 @@ import ErrorPage from './components/ErrorPage';
 // import Welcome from './components/Welcome';
 import Register from './components/Register';
 import Login from './components/Login';
+import Welcome from './components/Welcome';
 // import NavBar from './components/NavBar';
 
 const router = createBrowserRouter([
@@ -19,11 +20,23 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: '',
+        element: <Welcome />,
+      },
+      {
         path: 'login',
         element: <Login />,
       },
       {
         path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'shelter',
+        element: <Register />,
+      },
+      {
+        path: 'newshelter',
         element: <Register />,
       },
     ],

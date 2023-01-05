@@ -1,70 +1,83 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import { Link, redirect } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+import { attemptPasswordLogin } from '../store/reducers/userSlice';
 
-  React.useEffect(() => {
-    const token = window.localStorage.getItem('token');
-    if (token) {
-      navigate('/');
-    }
+export default function SignIn() {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
   });
+  const dispatch = useAppDispatch();
+  const [formError, setFormError] = useState({});
 
-  // const handleSubmit = async (event) => {
-  //   event.preventDefault();
-  //     await dispatch(
-  //       attemptPsswordLogin({
-  //         username: state.username,
-  //         password: state.password,
-  //       })
-  //     );
-  //     navigate('/');
-  // };
-
+  const handleChange =
+    (props: string) =>
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      let value = event.target.value;
+      setForm({
+        ...form,
+        [props]: value,
+      });
+    };
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setFormError({});
+    if (!form.email) {
+      setFormError({ ...formError, email: 'please enter an email address' });
+      return;
+    }
+    if (!form.password) {
+      setFormError({ ...formError, password: 'please enter your password' });
+      return;
+    }
+    dispatch(attemptPasswordLogin(form));
+  };
+  const user = useAppSelector((state) => state.user);
+  useEffect(() => {
+    if (user) {
+      redirect('/');
+    }
+  }, [user]);
   return (
-    <div className="signinContainer">
-      <form
-        id="login-form"
-        // onSubmit={}
-      >
-        <h1 className="signinTitle">SIGN IN</h1>
-        <div className="login-line">
+    <div className="form-container">
+      <form id="login-form" onSubmit={(e) => handleSubmit(e)}>
+        <div className="form-title">Login shelter system</div>
+        <div className="form-item">
+          <label htmlFor="email" className="form-label">
+            Email
+          </label>
           <input
-            className="login-input"
-            placeholder="Email or Username"
-            name="username"
-            value={email}
-            autoComplete="userName"
-            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            className="form-input"
+            placeholder="Enter your email"
+            name="email"
+            type="email"
+            value={form.email}
+            onChange={handleChange('email')}
           />
         </div>
-        <div className="login-line">
+        <div className="form-item">
+          <label htmlFor="password" className="form-label">
+            Password
+          </label>
           <input
-            placeholder="Password"
-            className="login-input"
+            className="form-input"
+            placeholder="Enter your password"
             name="password"
-            type="password"
-            value={password}
             autoComplete="current-password"
-            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            value={form.password}
+            onChange={handleChange('password')}
           />
         </div>
-        <div className="createAccount">
-          <button className="signinBtn" type="submit">
-            Sign In
-          </button>
-          <Link to="/register">
-            <button className="registerBtn">Create account?</button>
-          </Link>
+        <div className="form-button">
+          <button type="submit">Login</button>
+        </div>
+        <div className="form-button">
+          <Link to="/register">No account? Sign up now!</Link>
         </div>
       </form>
     </div>
   );
-};
-
-export default SignIn;
+}

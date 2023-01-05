@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState } from '../index';
+import type { RootState, AppDispatch } from '../index';
 import axios from 'axios';
 
 // Define a type for the slice state
@@ -33,11 +33,11 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 export const { login, logout } = userSlice.actions;
 // export const selectCount = (state: RootState) => state.user.value;
-export const attemptPsswordLogin = (user: {
+export const attemptPasswordLogin = (user: {
   email: string;
   password: string;
 }) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     try {
       const { data: newUser } = await axios.post('/api/login', {
         ...user,
@@ -49,13 +49,13 @@ export const attemptPsswordLogin = (user: {
   };
 };
 export const createUser = (user: { email: string; password: string }) => {
-  return async (dispatch: any) => {
+  return async (dispatch: AppDispatch) => {
     try {
       const { data: newUser } = await axios.post('/api/register', {
         ...user,
       });
       if (newUser) {
-        attemptPsswordLogin(user)(dispatch);
+        attemptPasswordLogin(user)(dispatch);
       }
     } catch (error) {
       throw error;

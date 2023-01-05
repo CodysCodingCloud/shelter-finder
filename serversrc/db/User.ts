@@ -5,6 +5,7 @@ interface IUser {
   lastName: string;
   affiliation: string;
   password: string;
+  avatar: Buffer;
 }
 const userSchema = new Schema<IUser>(
   {
@@ -23,11 +24,15 @@ const userSchema = new Schema<IUser>(
     },
     affiliation: {
       type: String,
-      required: [true, 'please enter a password'],
+      required: [true, 'please enter an orginization'],
     },
     password: {
       type: String,
       required: [true, 'please enter a password'],
+    },
+    avatar: {
+      type: Buffer,
+      required: false,
     },
   },
   { timestamps: true }

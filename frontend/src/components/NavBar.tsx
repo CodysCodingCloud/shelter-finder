@@ -14,12 +14,16 @@ export default function NavBar() {
       </div>
 
       <div className="navRight">
-        <Link to="/login" className="temp">
-          Login
-        </Link>{' '}
-        <Link to="/register" className="temp">
-          Register
-        </Link>
+        <div>
+          <Link to="/login" className="temp">
+            Login
+          </Link>
+        </div>
+        <div>
+          <Link to="/register" className="temp">
+            Register
+          </Link>
+        </div>
       </div>
     </div>
   );
