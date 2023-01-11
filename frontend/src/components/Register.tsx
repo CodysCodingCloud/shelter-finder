@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
 // import { createUser } from '../store/userSlice';
@@ -14,14 +14,18 @@ export default function Register() {
     lastName: '',
   });
 
-  const handleChange = (props: string) => (event: any) => {
-    setForm({
-      ...form,
-      [props]: event.target.value,
-    });
-  };
+  const handleChange =
+    (props: string) =>
+    (event: ChangeEvent<HTMLInputElement>): void => {
+      setForm({
+        ...form,
+        [props]: event.target.value,
+      });
+    };
 
-  const handleSubmit = async () => {};
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+  };
 
   const checkDisabled = () => {
     return (
@@ -32,57 +36,59 @@ export default function Register() {
     );
   };
 
-  return !user.email ? (
-    <form id="create-account-container" onSubmit={handleSubmit}>
-      <div id="create-account-form">
-        <h1 className="createAccounttitle">Create New Account</h1>
-        <div className="form-line">
-          <input
-            className="login-input"
-            placeholder="Email address"
-            type="email"
-            value={form.email}
-            onChange={handleChange('email')}
-          />
-        </div>
-        <div className="form-line">
-          <input
-            className="login-input"
-            placeholder="Password"
-            type="password"
-            value={form.password}
-            onChange={handleChange('password')}
-          />
-        </div>
+  return (
+    <div className="form-container">
+      {!user.email ? (
+        <form id="registration-form" onSubmit={handleSubmit}>
+          <div className="form-title">Register a new account</div>
+          <div className="form-item">
+            <input
+              className="form-input"
+              placeholder="Email address"
+              type="email"
+              value={form.email}
+              onChange={handleChange('email')}
+            />
+          </div>
+          <div className="form-item">
+            <input
+              className="form-input"
+              placeholder="Password"
+              type="password"
+              value={form.password}
+              onChange={handleChange('password')}
+            />
+          </div>
 
-        <div className="form-line">
-          <input
-            className="login-input"
-            placeholder="First name"
-            type="text"
-            value={form.firstName}
-            onChange={handleChange('firstName')}
-          />
-        </div>
-        <div className="form-line">
-          <input
-            className="login-input"
-            placeholder="Last name"
-            type="text"
-            value={form.lastName}
-            onChange={handleChange('lastName')}
-          />
-        </div>
-        <button
-          className="createAccountBtn"
-          type="submit"
-          disabled={checkDisabled()}
-        >
-          Create Account
-        </button>
-      </div>
-    </form>
-  ) : (
-    <div>Cannot create account when already logged in</div>
+          <div className="form-item">
+            <input
+              className="form-input"
+              placeholder="First name"
+              type="text"
+              value={form.firstName}
+              onChange={handleChange('firstName')}
+            />
+          </div>
+          <div className="form-item">
+            <input
+              className="form-input"
+              placeholder="Last name"
+              type="text"
+              value={form.lastName}
+              onChange={handleChange('lastName')}
+            />
+          </div>
+          <button
+            className="form-button"
+            type="submit"
+            disabled={checkDisabled()}
+          >
+            Create Account
+          </button>
+        </form>
+      ) : (
+        <div>Cannot create account when already logged in</div>
+      )}
+    </div>
   );
 }
