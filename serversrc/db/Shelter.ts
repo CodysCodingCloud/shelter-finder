@@ -6,8 +6,10 @@ interface IShelter {
   addressLine2?: string;
   stateAbbreviation: string;
   postal: string;
+  phone: number;
   openSpace: Number;
   capacity: Number;
+
   requirements?: string;
 }
 const shelterSchema = new Schema<IShelter>(
