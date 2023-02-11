@@ -24,7 +24,7 @@ const userSchema = new Schema<IUser>(
     },
     affiliation: {
       type: String,
-      required: [true, 'please enter an orginization'],
+      required: [false, 'please enter an orginization'],
     },
     password: {
       type: String,

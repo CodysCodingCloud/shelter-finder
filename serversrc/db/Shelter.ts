@@ -9,7 +9,7 @@ interface IShelter {
   phone: number;
   openSpace: Number;
   capacity: Number;
-
+  description?: string;
   requirements?: string;
 }
 const shelterSchema = new Schema<IShelter>(
@@ -46,6 +46,10 @@ const shelterSchema = new Schema<IShelter>(
     capacity: {
       type: Number,
       required: [true, 'Please indicate capacity'],
+    },
+    description: {
+      type: String,
+      required: [false],
     },
     requirements: {
       type: String,

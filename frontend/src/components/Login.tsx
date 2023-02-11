@@ -1,5 +1,6 @@
+import { log } from 'console';
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { attemptPasswordLogin } from '../store/reducers/userSlice';
 
@@ -8,6 +9,7 @@ export default function SignIn() {
     email: '',
     password: '',
   });
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [formError, setFormError] = useState({});
 
@@ -35,10 +37,10 @@ export default function SignIn() {
   };
   const user = useAppSelector((state) => state.user);
   useEffect(() => {
-    if (user) {
-      redirect('/');
+    if (user.email) {
+      navigate('/');
     }
-  }, [user]);
+  }, [user, navigate]);
   return (
     <div className="form-container">
       <form id="login-form" onSubmit={(e) => handleSubmit(e)}>

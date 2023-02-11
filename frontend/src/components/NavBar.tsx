@@ -23,6 +23,16 @@ export default function NavBar() {
           <Link to="/register" className="temp">
             Register
           </Link>
+        </div>{' '}
+        <div>
+          <Link to="/shelter" className="temp">
+            shelter
+          </Link>
+        </div>{' '}
+        <div>
+          <Link to="/newshelter" className="temp">
+            newshelter
+          </Link>
         </div>
       </div>
     </div>

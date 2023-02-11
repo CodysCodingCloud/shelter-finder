@@ -16,22 +16,22 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state, action) => {
-      state = action.payload;
+    login: (state, action: PayloadAction<UserState>) => {
+      state = { ...action.payload };
       return state;
     },
     logout: (state) => {
       state = initialState;
       return state;
     },
-    // update: (state, action: PayloadAction<number>) => {
-    //   state.value = action.payload;
-    //   return state;
-    // },
+    update: (state, action: PayloadAction<UserState>) => {
+      state = action.payload;
+      return state;
+    },
   },
 });
 export default userSlice.reducer;
-export const { login, logout } = userSlice.actions;
+export const { login, logout, update } = userSlice.actions;
 // export const selectCount = (state: RootState) => state.user.value;
 export const attemptPasswordLogin = (user: {
   email: string;
@@ -39,26 +39,60 @@ export const attemptPasswordLogin = (user: {
 }) => {
   return async (dispatch: AppDispatch) => {
     try {
-      const { data: newUser } = await axios.post('/api/login', {
+      const { data: token } = await axios.post('/api/user/login', {
         ...user,
       });
-      dispatch(newUser);
+      window.localStorage.setItem('token', token);
+      console.log('gotly token', token);
+      dispatch(attemptTokenLogin());
     } catch (error) {
       throw error;
     }
   };
 };
-export const createUser = (user: { email: string; password: string }) => {
+export const attemptTokenLogin = () => {
   return async (dispatch: AppDispatch) => {
     try {
-      const { data: newUser } = await axios.post('/api/register', {
+      const token = window.localStorage.getItem('token');
+      if (token) {
+        console.log(token);
+        const { data: userInfo } = await axios.post(
+          '/api/user/token',
+          {},
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        console.log('userinbfo', userInfo);
+        dispatch(login(userInfo));
+      }
+    } catch (error) {}
+  };
+};
+export const createUser = (user: {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  affiliation: string;
+}) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      console.log('reg', user);
+      const { data: token } = await axios.post('/api/user/register', {
         ...user,
       });
-      if (newUser) {
-        attemptPasswordLogin(user)(dispatch);
+      if (token) {
+        console.log('regis token', token);
+
+        window.localStorage.setItem('token', token);
+        attemptTokenLogin()(dispatch);
       }
-    } catch (error) {
-      throw error;
+    } catch (error: any) {
+      console.log(error.response.data);
+      // throw error
     }
   };
 };

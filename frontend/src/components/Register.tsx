@@ -1,17 +1,24 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
-// import { createUser } from '../store/userSlice';
-
+import { createUser } from '../store/reducers/userSlice';
+import { useNavigate } from 'react-router-dom';
 export default function Register() {
+  const navigate = useNavigate();
   const user = useAppSelector((state) => state.user);
-  // const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (user.email) {
+      navigate('/');
+    }
+  }, [user, navigate]);
+  const dispatch = useAppDispatch();
   // const navigate = useNavigate();
   const [form, setForm] = useState({
     email: '',
     password: '',
     firstName: '',
     lastName: '',
+    affiliation: '',
   });
 
   const handleChange =
@@ -25,6 +32,7 @@ export default function Register() {
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    dispatch(createUser(form));
   };
 
   const checkDisabled = () => {
@@ -76,6 +84,15 @@ export default function Register() {
               type="text"
               value={form.lastName}
               onChange={handleChange('lastName')}
+            />
+          </div>
+          <div className="form-item">
+            <input
+              className="form-input"
+              placeholder="affiliation"
+              type="text"
+              value={form.affiliation}
+              onChange={handleChange('affiliation')}
             />
           </div>
           <button

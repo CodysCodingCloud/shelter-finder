@@ -11,12 +11,13 @@ app.use('/api', require('./api'));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  // console.error(err.stack);
+  console.log('>>>>>>>>>>>>>>>>>>>>>');
+  console.error(err.stack);
   // res.status(err.status || 500).send(err.message || 'Internal server error');
   const statusCode = res.statusCode || 500;
-  res.status(statusCode);
+  // res;
   // .send(err.message || 'Internal server error');
-  res.json({
+  res.status(statusCode).json({
     message: err.message,
     stack: process.env.NODE_ENV === 'production' ? null : err.stack,
   });

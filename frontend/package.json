@@ -26,6 +26,7 @@
     "eject": "react-scripts eject",
     "less": "less-watch-compiler"
   },
+  "proxy": "http://localhost:5000/",
   "eslintConfig": {
     "extends": [
       "react-app",

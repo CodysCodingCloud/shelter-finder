@@ -1,15 +1,18 @@
 import { Router } from 'express';
 const router = Router();
 const { User } = require('../db');
-import { hashPassword, authenticateLogin } from './jwt';
-// const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
-// const Sequelize = require('sequelize')
-
-// register user
+import { hashPassword, authenticateLogin, authByToken } from './jwt';
+router.get('/', async (req, res, next) => {
+  try {
+    res.send({ message: 'hi' });
+  } catch (err) {
+    next(err);
+  }
+});
 router.post('/register', async (req, res, next) => {
   try {
     // req.body.isAdmin = false;
-    const user = req.body.user;
+    const user = req.body;
     if (!user.email || !user.password) {
       res.status(400);
       throw new Error('please complete the form');
@@ -19,10 +22,12 @@ router.post('/register', async (req, res, next) => {
         res.status(400);
         throw new Error('User already exists');
       }
-      hashPassword(user);
-      const newUser = await User.create(user);
-      const token = authenticateLogin(user);
-      res.status(200).json({ email: newUser.email, token });
+      const newUser = await User.create({
+        ...user,
+        password: await hashPassword(user),
+      });
+      const token = await authenticateLogin(user);
+      res.status(200).json(token);
     }
   } catch (err) {
     next(err);
@@ -31,13 +36,30 @@ router.post('/register', async (req, res, next) => {
 router.post('/login', async (req, res, next) => {
   try {
     // req.body.isAdmin = false;
-    const user = req.body.user;
+    const user = req.body;
     if (!user.email || !user.password) {
       res.status(400);
       throw new Error('please enter both your email and password');
     } else {
-      const token = authenticateLogin(user);
-      res.status(200).json({ email: user.email, token });
+      const token = await authenticateLogin({
+        email: user.email,
+        password: user.password,
+      });
+      res.status(200).json(token);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+router.post('/token', async (req, res, next) => {
+  try {
+    if (req.headers.authorization) {
+      console.log('>>><><><>', req.headers.authorization);
+      let user = await authByToken(req.headers.authorization);
+      user.password = '******************';
+      console.log(user);
+
+      res.status(200).json(user);
     }
   } catch (err) {
     next(err);

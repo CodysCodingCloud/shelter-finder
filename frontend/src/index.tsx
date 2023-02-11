@@ -11,6 +11,7 @@ import ErrorPage from './components/ErrorPage';
 import Register from './components/Register';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
+
 // import NavBar from './components/NavBar';
 
 const router = createBrowserRouter([
@@ -26,6 +27,8 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+        // loader: async () => {
+        // },
       },
       {
         path: 'register',
