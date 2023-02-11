@@ -12,11 +12,12 @@
   },
   "scripts": {
     "start": "node server",
-    "dev": "nodemon serversrc/index.ts",
+    "server": "nodemon serversrc/index.ts",
     "build": "tsc-p .",
     "client": "npm start --prefix frontend",
     "clientbuild": "npm run build --prefix frontend",
-    "builds": "npm run build && npm runclientbuild"
+    "builds": "npm run build && npm runclientbuild",
+    "dev": "npm run client & npm run server"
   },
   "browserslist": {
     "production": [

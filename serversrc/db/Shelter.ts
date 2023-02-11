@@ -1,14 +1,15 @@
 import mongoose, { Schema, model, connect, Types } from 'mongoose';
-interface IShelter {
+export interface IShelter {
   user: Types.ObjectId;
   name: string;
+  organization: string;
   addressLine1: string;
   addressLine2?: string;
   stateAbbreviation: string;
   postal: string;
-  phone: number;
-  openSpace: Number;
-  capacity: Number;
+  phone: string;
+  openSpace?: Number;
+  capacity?: Number;
   description?: string;
   requirements?: string;
 }
@@ -20,6 +21,10 @@ const shelterSchema = new Schema<IShelter>(
       ref: 'User',
     },
     name: {
+      type: String,
+      required: [true, 'Please add a user'],
+    },
+    organization: {
       type: String,
       required: [true, 'Please add a user'],
     },
@@ -41,11 +46,11 @@ const shelterSchema = new Schema<IShelter>(
     },
     openSpace: {
       type: Number,
-      required: [true, 'Please indicate open space'],
+      required: [false, 'Please indicate open space'],
     },
     capacity: {
       type: Number,
-      required: [true, 'Please indicate capacity'],
+      required: [false, 'Please indicate capacity'],
     },
     description: {
       type: String,

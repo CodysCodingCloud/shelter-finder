@@ -13,13 +13,27 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
-router.post('/', async (req, res, next) => {
+router.post('/add', async (req, res, next) => {
   try {
-    if (!req.body.shelter) {
+    let shelter = req.body;
+    if (
+      !shelter.name ||
+      !shelter.addressLine1 ||
+      !shelter.stateAbbreviation ||
+      !shelter.postal ||
+      !shelter.capacity
+    ) {
       res.status(400);
       throw new Error('please complete the form');
     } else {
-      const shelter = await Shelter.create(req.body.shelter);
+      const userExists = await User.find({
+        $or: [{ name: shelter.name }, { addressLine1: shelter.addressLine1 }],
+      });
+      if (userExists) {
+        res.status(400);
+        throw new Error('User already exists');
+      }
+      const newShelter = await Shelter.create(shelter);
       res.status(200).send(shelter);
     }
   } catch (err) {
