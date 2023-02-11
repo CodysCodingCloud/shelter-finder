@@ -96,3 +96,9 @@ export const createUser = (user: {
     }
   };
 };
+export const logoutThunk = () => {
+  return async (dispatch: AppDispatch) => {
+    window.localStorage.removeItem('token');
+    dispatch(logout);
+  };
+};

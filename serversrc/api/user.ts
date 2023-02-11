@@ -57,8 +57,6 @@ router.post('/token', async (req, res, next) => {
       console.log('>>><><><>', req.headers.authorization);
       let user = await authByToken(req.headers.authorization);
       user.password = '******************';
-      console.log(user);
-
       res.status(200).json(user);
     }
   } catch (err) {
