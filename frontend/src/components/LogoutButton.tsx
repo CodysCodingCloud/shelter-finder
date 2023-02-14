@@ -8,11 +8,13 @@ export default function LogoutButton() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleSubmit = async () => {
+    console.log('logging out?');
+
     dispatch(logoutThunk());
-    navigate('/');
+    navigate(0);
   };
   return (
-    <button className="logout" type="submit" onSubmit={handleSubmit}>
+    <button className="logout" onClick={handleSubmit}>
       Logout
     </button>
   );

@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import reduxLogger from 'redux-logger';
 // import { useMemo } from 'react';
-import { userSlice } from './reducers';
+import { userSlice, shelterSlice } from './reducers';
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
+    shelter: shelterSlice,
   },
   middleware: (getDefaultMiddleware) => {
     if (process.env.NODE_ENV === 'production') {

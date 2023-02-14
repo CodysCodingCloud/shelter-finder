@@ -2,7 +2,8 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
 // import { createUser } from '../store/userSlice';
-// import { IShelter } from '../../../serversrc/db/Shelter';
+import { IShelter } from '../../../serversrc/db/Shelter';
+import { log } from 'console';
 
 export default function ShelterForm() {
   const user = useAppSelector((state) => state.user);
@@ -10,7 +11,7 @@ export default function ShelterForm() {
   // const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    // user:user.id,
+    // user: user._id,
     name: '',
     organization: '',
     addressLine1: '',
@@ -18,8 +19,8 @@ export default function ShelterForm() {
     stateAbbreviation: '',
     postal: '',
     phone: '',
-    // openSpace: '',
-    // capacity: '',
+    openSpace: '',
+    capacity: '',
     description: '',
     requirements: '',
   });
@@ -33,29 +34,31 @@ export default function ShelterForm() {
         ...form,
         [props]: event.target.value,
       });
+      checkDisabled();
     };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
       !form.name ||
+      !form.organization ||
       !form.addressLine1 ||
       !form.stateAbbreviation ||
       !form.postal ||
       !form.phone ||
-      !form.capacity ||
-      !form.description ||
-      !form.requirements
+      !form.capacity
     ) {
-      setFormError({ ...formError, password: 'please complete the form' });
+      setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
+    console.log(user['_id']);
   };
 
   const checkDisabled = () => {
     if (
       !form.name ||
       !form.addressLine1 ||
+      !form.organization ||
       !form.stateAbbreviation ||
       !form.postal ||
       !form.capacity
@@ -83,23 +86,35 @@ export default function ShelterForm() {
             />
           </div>
           <div className="form-item">
-            <label htmlFor="addressLine1">addressLine1</label>
+            <label htmlFor="organization">organization</label>
             <input
-              id="addressLine1"
+              id="organization"
               className="form-input"
-              placeholder="addressLine1"
+              autoComplete="organization"
+              placeholder="organization"
               type="text"
-              autoComplete="street-address"
+              value={form.organization}
+              onChange={handleChange('organization')}
+            />
+          </div>
+          <div className="form-item">
+            <label htmlFor="address-line1">addressLine1</label>
+            <input
+              id="address-line1"
+              className="form-input"
+              placeholder="address-line1"
+              type="text"
+              autoComplete="address-line1"
               value={form.addressLine1}
               onChange={handleChange('addressLine1')}
             />
           </div>
           <div className="form-item">
-            <label htmlFor="addressLine2">addressLine2</label>
+            <label htmlFor="address-line2">addressLine2</label>
             <input
-              id="addressLine2"
+              id="address-line2"
               className="form-input"
-              placeholder="addressLine2"
+              placeholder="address-line2"
               type="HTMLSelectElement"
               value={form.addressLine2}
               onChange={handleChange('addressLine2')}
@@ -119,7 +134,7 @@ export default function ShelterForm() {
                 });
               }}
             >
-              <option value="" selected hidden></option>
+              <option value="" defaultValue="" hidden></option>
               <option value="AL">AL</option>
               <option value="AK">AK</option>
               <option value="AR">AR</option>
@@ -206,7 +221,7 @@ export default function ShelterForm() {
               className="form-input"
               placeholder="capacity"
               type="number"
-              value={Number(form.capacity)}
+              value={form.capacity}
               onChange={handleChange('capacity')}
             />
           </div>{' '}
@@ -219,7 +234,7 @@ export default function ShelterForm() {
               className="form-input"
               placeholder="Open space"
               type="number"
-              value={Number(form.openSpace)}
+              value={form.openSpace}
               onChange={handleChange('openSpace')}
             />
           </div>

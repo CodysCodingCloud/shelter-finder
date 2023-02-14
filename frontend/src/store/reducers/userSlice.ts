@@ -100,5 +100,6 @@ export const logoutThunk = () => {
   return async (dispatch: AppDispatch) => {
     window.localStorage.removeItem('token');
     dispatch(logout);
+    console.log('thunk running?');
   };
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
 // import { useAppDispatch, useAppSelector } from '../store/hooks';
-
+import LogoutButton from './LogoutButton';
 export default function NavBar() {
   // const user = useAppSelector((state) => state.user);
 
@@ -34,6 +34,7 @@ export default function NavBar() {
             newshelter
           </Link>
         </div>
+        <LogoutButton />
       </div>
     </div>
   );
