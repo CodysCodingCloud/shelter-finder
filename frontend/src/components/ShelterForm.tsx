@@ -1,14 +1,12 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
-// import { createUser } from '../store/userSlice';
 import { IShelter } from '../../../serversrc/db/Shelter';
 import FormItem from './FormItem';
-// import { FormItemPorp } from './FormItem';
 
 export default function ShelterForm() {
   const user = useAppSelector((state) => state.user);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -28,18 +26,34 @@ export default function ShelterForm() {
   const [formError, setFormError] = useState({});
   const [disableForm, setDisableForm] = useState(true);
 
-  const handleChange =
-    (props: string) =>
-    (event: ChangeEvent<HTMLInputElement>): void => {
-      setForm((prev) => {
-        return {
-          ...prev,
-          [props]: event.target.value,
-        };
-      });
-      checkDisabled();
-    };
+  const checkDisabled = useCallback(() => {
+    if (
+      !form.name ||
+      !form.addressLine1 ||
+      !form.organization ||
+      !form.stateAbbreviation ||
+      !form.postal ||
+      !form.capacity
+    ) {
+      setDisableForm(true);
+    } else {
+      setDisableForm(false);
+    }
+  }, [form]);
 
+  const handleChange = useCallback(
+    (props: string) =>
+      (event: ChangeEvent<HTMLInputElement>): void => {
+        setForm((prev) => {
+          return {
+            ...prev,
+            [props]: event.target.value,
+          };
+        });
+        checkDisabled();
+      },
+    [checkDisabled]
+  );
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
@@ -55,21 +69,6 @@ export default function ShelterForm() {
       return;
     }
     // console.log(user['_id']);
-  };
-
-  const checkDisabled = () => {
-    if (
-      !form.name ||
-      !form.addressLine1 ||
-      !form.organization ||
-      !form.stateAbbreviation ||
-      !form.postal ||
-      !form.capacity
-    ) {
-      setDisableForm(true);
-    } else {
-      setDisableForm(false);
-    }
   };
 
   return (
