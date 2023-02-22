@@ -3,7 +3,8 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
 // import { createUser } from '../store/userSlice';
 import { IShelter } from '../../../serversrc/db/Shelter';
-import { log } from 'console';
+import FormItem from './FormItem';
+// import { FormItemPorp } from './FormItem';
 
 export default function ShelterForm() {
   const user = useAppSelector((state) => state.user);
@@ -30,9 +31,11 @@ export default function ShelterForm() {
   const handleChange =
     (props: string) =>
     (event: ChangeEvent<HTMLInputElement>): void => {
-      setForm({
-        ...form,
-        [props]: event.target.value,
+      setForm((prev) => {
+        return {
+          ...prev,
+          [props]: event.target.value,
+        };
       });
       checkDisabled();
     };
@@ -51,7 +54,7 @@ export default function ShelterForm() {
       setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
-    console.log(user['_id']);
+    // console.log(user['_id']);
   };
 
   const checkDisabled = () => {
@@ -85,41 +88,26 @@ export default function ShelterForm() {
               onChange={handleChange('name')}
             />
           </div>
-          <div className="form-item">
-            <label htmlFor="organization">organization</label>
-            <input
-              id="organization"
-              className="form-input"
-              autoComplete="organization"
-              placeholder="organization"
-              type="text"
-              value={form.organization}
-              onChange={handleChange('organization')}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="address-line1">addressLine1</label>
-            <input
-              id="address-line1"
-              className="form-input"
-              placeholder="address-line1"
-              type="text"
-              autoComplete="address-line1"
-              value={form.addressLine1}
-              onChange={handleChange('addressLine1')}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="address-line2">addressLine2</label>
-            <input
-              id="address-line2"
-              className="form-input"
-              placeholder="address-line2"
-              type="HTMLSelectElement"
-              value={form.addressLine2}
-              onChange={handleChange('addressLine2')}
-            />
-          </div>
+          <FormItem
+            id="organization"
+            text="organization"
+            handleChange={handleChange}
+            value={form.organization}
+          />
+          <FormItem
+            id="address-line1"
+            text="Address line 1"
+            formChange="addressLine1"
+            handleChange={handleChange}
+            value={form.addressLine1}
+          />
+          <FormItem
+            id="address-line2"
+            text="Address line 2"
+            formChange="addressLine2"
+            handleChange={handleChange}
+            value={form.addressLine2}
+          />
           <div className="form-item">
             <label htmlFor="stateAbbreviation">State</label>
             <select
@@ -188,78 +176,47 @@ export default function ShelterForm() {
               <option value="WY">WY</option>
             </select>
           </div>
-          <div className="form-item">
-            <label htmlFor="postal">postal</label>
-            <input
-              id="postal"
-              className="form-input"
-              placeholder="postal"
-              autoComplete="postal-code"
-              type="number"
-              value={form.postal}
-              onChange={handleChange('postal')}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="phone_number">contact information</label>
-            <input
-              id="phone_number"
-              className="form-input"
-              placeholder="phone number"
-              autoComplete="tel-national"
-              type="number"
-              value={form.phone}
-              onChange={handleChange('phone')}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="capacity">
-              what is the maximum capacity in this shelter?
-            </label>
-            <input
-              id="capacity"
-              className="form-input"
-              placeholder="capacity"
-              type="number"
-              value={form.capacity}
-              onChange={handleChange('capacity')}
-            />
-          </div>{' '}
-          <div className="form-item">
-            <label htmlFor="openSpace">
-              how much space is left in this shelter?
-            </label>
-            <input
-              id="openSpace"
-              className="form-input"
-              placeholder="Open space"
-              type="number"
-              value={form.openSpace}
-              onChange={handleChange('openSpace')}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="description">tell me more about this shelter</label>
-            <input
-              id="description"
-              className="form-input"
-              type="text"
-              value={form.description}
-              onChange={handleChange('description')}
-            />
-          </div>
-          <div className="form-item">
-            <label htmlFor="requirements">
-              are there any requirements in order to enter this shelter?
-            </label>
-            <input
-              id="requirements"
-              className="form-input"
-              type="text"
-              value={form.requirements}
-              onChange={handleChange('requirements')}
-            />
-          </div>
+          <FormItem
+            id="postal-code"
+            text="postal"
+            type="number"
+            formChange="postal"
+            handleChange={handleChange}
+            value={form.postal}
+          />
+          <FormItem
+            id="tel-national"
+            text="contact information<"
+            type="tel"
+            placeholder="phone number"
+            formChange="phone"
+            handleChange={handleChange}
+            value={form.phone}
+          />
+          <FormItem
+            id="capacity"
+            text="what is the maximum capacity in this shelter?"
+            handleChange={handleChange}
+            value={form.capacity}
+          />{' '}
+          <FormItem
+            id="openSpace"
+            text="how much space is left in this shelter?"
+            handleChange={handleChange}
+            value={form.openSpace}
+          />
+          <FormItem
+            id="description"
+            text="Tell me more about this shelter (This will be desplayed as your shelter's description)"
+            handleChange={handleChange}
+            value={form.description}
+          />
+          <FormItem
+            id="requirements"
+            text="are there any requirements in order to enter this shelter?"
+            handleChange={handleChange}
+            value={form.requirements}
+          />
           <button className="form-button" type="submit" disabled={disableForm}>
             Register Shelter
           </button>
