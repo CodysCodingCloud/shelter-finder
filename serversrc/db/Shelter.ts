@@ -11,6 +11,7 @@ export interface IShelter {
   openSpace?: Number;
   capacity?: Number;
   description?: string;
+  avatar: Buffer;
   requirements?: string;
 }
 const shelterSchema = new Schema<IShelter>(
@@ -59,6 +60,10 @@ const shelterSchema = new Schema<IShelter>(
     requirements: {
       type: String,
       required: [false],
+    },
+    avatar: {
+      type: Buffer,
+      required: false,
     },
   },
   { timestamps: true }

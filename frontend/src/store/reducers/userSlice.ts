@@ -5,6 +5,8 @@ import axios from 'axios';
 
 // Define a type for the slice state
 interface UserState {
+  _id?: string;
+  affiliation?: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -65,7 +67,8 @@ export const attemptTokenLogin = () => {
             },
           }
         );
-        console.log('userinbfo', userInfo);
+        // console.log('userinbfo', userInfo);
+        // console.log('userinbfoid', userInfo._id);
         dispatch(login(userInfo));
       }
     } catch (error) {}

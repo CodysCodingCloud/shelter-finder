@@ -8,8 +8,8 @@ app.use(express.static(path.join(__dirname, '..', 'build')));
 app.use(express.json());
 
 app.use('/api', require('./api'));
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ limit: '16mb', extended: true }));
+app.use(bodyParser.json({ limit: '16mb' }));
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.log('>>>>>>>>>>>>>>>>>>>>>');
   console.error(err.stack);

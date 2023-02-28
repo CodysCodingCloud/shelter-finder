@@ -3,14 +3,13 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
 import { IShelter } from '../../../serversrc/db/Shelter';
 import FormItem from './FormItem';
-
+import { createShelter, updateShelter } from '../store/reducers/shelterSlice';
 export default function ShelterForm() {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
   const [form, setForm] = useState({
-    // user: user._id,
     name: '',
     organization: '',
     addressLine1: '',
@@ -22,6 +21,7 @@ export default function ShelterForm() {
     capacity: '',
     description: '',
     requirements: '',
+    avatar: '',
   });
   const [formError, setFormError] = useState({});
   const [disableForm, setDisableForm] = useState(true);
@@ -54,6 +54,31 @@ export default function ShelterForm() {
       },
     [checkDisabled]
   );
+
+  const setImageFile = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const fileList = event.target.files;
+      if (fileList instanceof FileList) {
+        const file = fileList[0];
+        let fileReader = new FileReader();
+        fileReader.onload = function () {
+          setForm((prev) => {
+            return {
+              ...prev,
+              avatar: fileReader.result as string,
+            };
+          });
+
+          fileReader.onerror = function () {
+            alert(fileReader.error);
+          };
+        };
+        fileReader.readAsDataURL(file);
+      }
+    },
+
+    []
+  );
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
@@ -68,6 +93,9 @@ export default function ShelterForm() {
       setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
+    dispatch(createShelter(form, user._id as string));
+    console.log('userinfo', user._id);
+
     // console.log(user['_id']);
   };
 
@@ -76,6 +104,27 @@ export default function ShelterForm() {
       {user.email ? (
         <form id="registration-form" onSubmit={handleSubmit}>
           <div className="form-title">Register a new Shelter</div>
+          <div className="form-item">
+            <label htmlFor="avatar">Avatar</label>
+            <input
+              id="avatar"
+              className="form-input"
+              type="file"
+              accept="image/png, image/jpg, image/jpeg"
+              // value={form.avatar?}
+              onChange={setImageFile}
+            />
+          </div>
+          {form.avatar && (
+            <div>
+              <p>preview</p>
+              <img
+                src={form.avatar}
+                alt="uploaded avatar"
+                style={{ width: '300px' }}
+              />
+            </div>
+          )}
           <div className="form-item">
             <label htmlFor="name">name</label>
             <input
@@ -194,12 +243,14 @@ export default function ShelterForm() {
           />
           <FormItem
             id="capacity"
+            type="number"
             text="what is the maximum capacity in this shelter?"
             handleChange={handleChange}
             value={form.capacity}
           />{' '}
           <FormItem
             id="openSpace"
+            type="number"
             text="how much space is left in this shelter?"
             handleChange={handleChange}
             value={form.openSpace}

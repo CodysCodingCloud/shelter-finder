@@ -26,15 +26,15 @@ router.post('/add', async (req, res, next) => {
       res.status(400);
       throw new Error('please complete the form');
     } else {
-      const userExists = await User.find({
-        $or: [{ name: shelter.name }, { addressLine1: shelter.addressLine1 }],
+      const sheltterExists = await Shelter.find({
+        $and: [{ name: shelter.name }, { addressLine1: shelter.addressLine1 }],
       });
-      if (userExists) {
+      if (sheltterExists.length > 0) {
         res.status(400);
-        throw new Error('User already exists');
+        throw new Error('Shelter already exists');
       }
       const newShelter = await Shelter.create(shelter);
-      res.status(200).send(shelter);
+      res.status(200).send(newShelter);
     }
   } catch (err) {
     next(err);
