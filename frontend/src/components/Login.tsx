@@ -64,7 +64,7 @@ export default function SignIn() {
             Password
           </label>
           <input
-            className="form-input"
+            className="form-input form-control"
             placeholder="Enter your password"
             name="password"
             autoComplete="current-password"

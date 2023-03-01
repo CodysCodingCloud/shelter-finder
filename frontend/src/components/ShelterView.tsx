@@ -22,7 +22,7 @@ export default function ShelterForm() {
     <div className="single-shelter-container">
       {shelter._id ? (
         <div>
-          <img></img>
+          <img src=""></img>
           <div>Name</div>
         </div>
       ) : (

@@ -4,6 +4,8 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { IShelter } from '../../../serversrc/db/Shelter';
 import FormItem from './FormItem';
 import { createShelter, updateShelter } from '../store/reducers/shelterSlice';
+import AvatarFormItem from './AvatarFormItem';
+
 export default function ShelterForm() {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
@@ -43,42 +45,22 @@ export default function ShelterForm() {
 
   const handleChange = useCallback(
     (props: string) =>
-      (event: ChangeEvent<HTMLInputElement>): void => {
+      (
+        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+      ): void => {
         setForm((prev) => {
           return {
             ...prev,
             [props]: event.target.value,
           };
         });
+        console.log(form);
+
         checkDisabled();
       },
     [checkDisabled]
   );
 
-  const setImageFile = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const fileList = event.target.files;
-      if (fileList instanceof FileList) {
-        const file = fileList[0];
-        let fileReader = new FileReader();
-        fileReader.onload = function () {
-          setForm((prev) => {
-            return {
-              ...prev,
-              avatar: fileReader.result as string,
-            };
-          });
-
-          fileReader.onerror = function () {
-            alert(fileReader.error);
-          };
-        };
-        fileReader.readAsDataURL(file);
-      }
-    },
-
-    []
-  );
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (
@@ -100,45 +82,20 @@ export default function ShelterForm() {
   };
 
   return (
-    <div className="form-container">
+    <div className="container">
       {user.email ? (
         <form id="registration-form" onSubmit={handleSubmit}>
           <div className="form-title">Register a new Shelter</div>
-          <div className="form-item">
-            <label htmlFor="avatar">Avatar</label>
-            <input
-              id="avatar"
-              className="form-input"
-              type="file"
-              accept="image/png, image/jpg, image/jpeg"
-              // value={form.avatar?}
-              onChange={setImageFile}
-            />
-          </div>
-          {form.avatar && (
-            <div>
-              <p>preview</p>
-              <img
-                src={form.avatar}
-                alt="uploaded avatar"
-                style={{ width: '300px' }}
-              />
-            </div>
-          )}
-          <div className="form-item">
-            <label htmlFor="name">name</label>
-            <input
-              id="name"
-              className="form-input"
-              placeholder="name"
-              type="text"
-              value={form.name}
-              onChange={handleChange('name')}
-            />
-          </div>
+          <FormItem
+            id="name"
+            text="name"
+            handleChange={handleChange}
+            value={form.name}
+          />
+          <AvatarFormItem form={form} setForm={setForm} />
           <FormItem
             id="organization"
-            text="organization"
+            text="Organization"
             handleChange={handleChange}
             value={form.organization}
           />
@@ -156,74 +113,18 @@ export default function ShelterForm() {
             handleChange={handleChange}
             value={form.addressLine2}
           />
-          <div className="form-item">
-            <label htmlFor="stateAbbreviation">State</label>
-            <select
-              id="stateAbbreviation"
-              className="form-input"
-              autoComplete="state"
-              value={form.stateAbbreviation}
-              onChange={(event) => {
-                setForm({
-                  ...form,
-                  stateAbbreviation: event.target.value,
-                });
-              }}
-            >
-              <option value="" defaultValue="" hidden></option>
-              <option value="AL">AL</option>
-              <option value="AK">AK</option>
-              <option value="AR">AR</option>
-              <option value="AZ">AZ</option>
-              <option value="CA">CA</option>
-              <option value="CO">CO</option>
-              <option value="CT">CT</option>
-              <option value="DC">DC</option>
-              <option value="DE">DE</option>
-              <option value="FL">FL</option>
-              <option value="GA">GA</option>
-              <option value="HI">HI</option>
-              <option value="IA">IA</option>
-              <option value="ID">ID</option>
-              <option value="IL">IL</option>
-              <option value="IN">IN</option>
-              <option value="KS">KS</option>
-              <option value="KY">KY</option>
-              <option value="LA">LA</option>
-              <option value="MA">MA</option>
-              <option value="MD">MD</option>
-              <option value="ME">ME</option>
-              <option value="MI">MI</option>
-              <option value="MN">MN</option>
-              <option value="MO">MO</option>
-              <option value="MS">MS</option>
-              <option value="MT">MT</option>
-              <option value="NC">NC</option>
-              <option value="NE">NE</option>
-              <option value="NH">NH</option>
-              <option value="NJ">NJ</option>
-              <option value="NM">NM</option>
-              <option value="NV">NV</option>
-              <option value="NY">NY</option>
-              <option value="ND">ND</option>
-              <option value="OH">OH</option>
-              <option value="OK">OK</option>
-              <option value="OR">OR</option>
-              <option value="PA">PA</option>
-              <option value="RI">RI</option>
-              <option value="SC">SC</option>
-              <option value="SD">SD</option>
-              <option value="TN">TN</option>
-              <option value="TX">TX</option>
-              <option value="UT">UT</option>
-              <option value="VT">VT</option>
-              <option value="VA">VA</option>
-              <option value="WA">WA</option>
-              <option value="WI">WI</option>
-              <option value="WV">WV</option>
-              <option value="WY">WY</option>
-            </select>
-          </div>
+          <FormItem
+            id="stateAbbreviation"
+            autoComplete="state"
+            text="State"
+            type="select"
+            formChange="stateAbbreviation"
+            handleChange={handleChange}
+            value={form.stateAbbreviation}
+            slectArr={require('../util/usStates.json')}
+            selectText="name"
+            selectValue="abbreviation"
+          />
           <FormItem
             id="postal-code"
             text="postal"
@@ -236,7 +137,7 @@ export default function ShelterForm() {
             id="tel-national"
             text="contact information<"
             type="tel"
-            placeholder="phone number"
+            placeholder="(###)###-####"
             formChange="phone"
             handleChange={handleChange}
             value={form.phone}
@@ -247,7 +148,7 @@ export default function ShelterForm() {
             text="what is the maximum capacity in this shelter?"
             handleChange={handleChange}
             value={form.capacity}
-          />{' '}
+          />
           <FormItem
             id="openSpace"
             type="number"
@@ -258,16 +159,25 @@ export default function ShelterForm() {
           <FormItem
             id="description"
             text="Tell me more about this shelter (This will be desplayed as your shelter's description)"
+            type="textarea"
             handleChange={handleChange}
             value={form.description}
           />
           <FormItem
             id="requirements"
             text="are there any requirements in order to enter this shelter?"
+            type="textarea"
             handleChange={handleChange}
             value={form.requirements}
           />
-          <button className="form-button" type="submit" disabled={disableForm}>
+          <button
+            className={
+              'form-button btn btn-primary'
+              // + disableForm ? ' disabled' : ''
+            }
+            type="submit"
+            disabled={disableForm}
+          >
             Register Shelter
           </button>
         </form>

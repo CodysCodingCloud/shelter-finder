@@ -57,7 +57,7 @@ export const attemptTokenLogin = () => {
     try {
       const token = window.localStorage.getItem('token');
       if (token) {
-        console.log(token);
+        // console.log(token);
         const { data: userInfo } = await axios.post(
           '/api/user/token',
           {},
@@ -67,8 +67,6 @@ export const attemptTokenLogin = () => {
             },
           }
         );
-        // console.log('userinbfo', userInfo);
-        // console.log('userinbfoid', userInfo._id);
         dispatch(login(userInfo));
       }
     } catch (error) {}
@@ -88,7 +86,7 @@ export const createUser = (user: {
         ...user,
       });
       if (token) {
-        console.log('regis token', token);
+        // console.log('regis token', token);
 
         window.localStorage.setItem('token', token);
         attemptTokenLogin()(dispatch);
