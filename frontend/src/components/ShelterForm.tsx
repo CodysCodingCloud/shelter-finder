@@ -16,6 +16,7 @@ export default function ShelterForm() {
     organization: '',
     addressLine1: '',
     addressLine2: '',
+    city: '',
     stateAbbreviation: '',
     postal: '',
     phone: '',
@@ -23,7 +24,6 @@ export default function ShelterForm() {
     capacity: '',
     description: '',
     requirements: '',
-    avatar: '',
   });
   const [formError, setFormError] = useState({});
   const [disableForm, setDisableForm] = useState(true);
@@ -54,8 +54,6 @@ export default function ShelterForm() {
             [props]: event.target.value,
           };
         });
-        console.log(form);
-
         checkDisabled();
       },
     [checkDisabled]
@@ -67,6 +65,7 @@ export default function ShelterForm() {
       !form.name ||
       !form.organization ||
       !form.addressLine1 ||
+      !form.city ||
       !form.stateAbbreviation ||
       !form.postal ||
       !form.phone ||
@@ -75,7 +74,7 @@ export default function ShelterForm() {
       setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
-    dispatch(createShelter(form, user._id as string));
+    dispatch(createShelter({ ...form, user: user._id as string }));
     console.log('userinfo', user._id);
 
     // console.log(user['_id']);
@@ -84,8 +83,14 @@ export default function ShelterForm() {
   return (
     <div className="container">
       {user.email ? (
-        <form id="registration-form" onSubmit={handleSubmit}>
-          <div className="form-title">Register a new Shelter</div>
+        <form
+          id="registration-form"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
+          <div className="form-title text-center display-4 mb-4">
+            Register a new Shelter
+          </div>
           <FormItem
             id="name"
             text="name"
@@ -112,6 +117,13 @@ export default function ShelterForm() {
             formChange="addressLine2"
             handleChange={handleChange}
             value={form.addressLine2}
+          />{' '}
+          <FormItem
+            id="city"
+            text="city"
+            formChange="city"
+            handleChange={handleChange}
+            value={form.city}
           />
           <FormItem
             id="stateAbbreviation"

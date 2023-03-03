@@ -5,6 +5,7 @@
 */node_modules
 /.pnp
 .pnp.js
+uploads/*
 
 # testing
 /coverage
@@ -13,6 +14,7 @@
 # production
 /build
 /server
+
 # misc
 .DS_Store
 .env

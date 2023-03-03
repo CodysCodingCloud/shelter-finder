@@ -33,6 +33,11 @@ export default function NavBar() {
           <Link to="/newshelter" className="temp">
             newshelter
           </Link>
+        </div>{' '}
+        <div>
+          <Link to="/singleview" className="temp">
+            singleview
+          </Link>
         </div>
         <LogoutButton />
       </div>

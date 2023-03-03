@@ -34,8 +34,8 @@ export default memo(function FormItem({
   selectValue,
 }: FormItemPorp) {
   return (
-    <div className="form-item row mb-3">
-      <label htmlFor={id} className="form-label col">
+    <div className="form-group row mb-3">
+      <label htmlFor={id} className="form-label col-md">
         {text}
       </label>
       {type === 'select' ? (
@@ -56,6 +56,12 @@ export default memo(function FormItem({
             </option>
           ))}
         </select>
+      ) : type === 'textarea' ? (
+        <textarea
+          id={id}
+          className="form-input col form-control"
+          rows={5}
+        ></textarea>
       ) : (
         <input
           id={id}

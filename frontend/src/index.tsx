@@ -12,6 +12,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
 import ShelterForm from './components/ShelterForm';
+import ShelterView from './components/ShelterView';
 // import NavBar from './components/NavBar';
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: 'newshelter',
         element: <ShelterForm />,
+      },
+      {
+        path: 'singleview/:id',
+        element: <ShelterView />,
       },
     ],
   },

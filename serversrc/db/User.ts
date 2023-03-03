@@ -1,4 +1,5 @@
 import mongoose, { Schema, model, connect } from 'mongoose';
+
 interface IUser {
   email: string;
   firstName: string;
@@ -6,6 +7,7 @@ interface IUser {
   affiliation: string;
   password: string;
   avatar: Buffer;
+  shelter: [];
 }
 const userSchema = new Schema<IUser>(
   {
@@ -34,6 +36,13 @@ const userSchema = new Schema<IUser>(
       type: Buffer,
       required: false,
     },
+    shelter: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Shelter',
+        required: false,
+      },
+    ],
   },
   { timestamps: true }
 );

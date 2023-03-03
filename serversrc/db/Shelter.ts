@@ -5,13 +5,14 @@ export interface IShelter {
   organization: string;
   addressLine1: string;
   addressLine2?: string;
+  city: string;
   stateAbbreviation: string;
   postal: string;
   phone: string;
-  openSpace?: Number;
-  capacity?: Number;
+  openSpace?: number;
+  capacity?: number;
   description?: string;
-  avatar: Buffer;
+  avatar?: { data: Buffer; contentType: String };
   requirements?: string;
 }
 const shelterSchema = new Schema<IShelter>(
@@ -36,6 +37,10 @@ const shelterSchema = new Schema<IShelter>(
     addressLine2: {
       type: String,
       required: [false],
+    },
+    city: {
+      type: String,
+      required: [true, 'Please add an city'],
     },
     stateAbbreviation: {
       type: String,
@@ -62,7 +67,8 @@ const shelterSchema = new Schema<IShelter>(
       required: [false],
     },
     avatar: {
-      type: Buffer,
+      data: Buffer,
+      contentType: String,
       required: false,
     },
   },

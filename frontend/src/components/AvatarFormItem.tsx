@@ -1,4 +1,10 @@
-import React, { useCallback, ChangeEvent, SetStateAction, memo } from 'react';
+import React, {
+  useCallback,
+  ChangeEvent,
+  SetStateAction,
+  memo,
+  useState,
+} from 'react';
 
 export default memo(function AvatarFormItem({
   form,
@@ -7,6 +13,7 @@ export default memo(function AvatarFormItem({
   form: any;
   setForm: React.Dispatch<SetStateAction<any>>;
 }) {
+  const [preview, setPreview] = useState('');
   const setImageFile = useCallback(
     (event: ChangeEvent<HTMLInputElement>) => {
       const fileList = event.target.files;
@@ -17,10 +24,10 @@ export default memo(function AvatarFormItem({
           setForm((prev: typeof form) => {
             return {
               ...prev,
-              avatar: fileReader.result as string,
+              avatar: file,
             };
           });
-
+          setPreview(fileReader.result as string);
           fileReader.onerror = function () {
             alert(fileReader.error);
           };
@@ -32,28 +39,33 @@ export default memo(function AvatarFormItem({
   );
 
   return (
-    <div className="form-item row mb-3">
-      <label htmlFor="avatar" className="form-label col">
+    <div className="form-group row mb-3">
+      <label htmlFor="avatar" className="form-label">
         Avatar
       </label>
-      <input
-        id="avatar"
-        className="form-input form-control"
-        type="file"
-        accept="image/png, image/jpg, image/jpeg"
-        // value={form.avatar?}
-        onChange={setImageFile}
-      />
-      {form.avatar && (
-        <div className="form-avatar-preview">
-          <p>preview</p>
-          <img
-            src={form.avatar}
-            alt="uploaded avatar"
-            style={{ width: '300px' }}
-          />
-        </div>
-      )}
+      <div className="col row">
+        <input
+          id="avatar"
+          className="form-input form-control-file col"
+          type="file"
+          accept="image/png, image/jpg, image/jpeg"
+          // value={form.avatar?}
+          onChange={setImageFile}
+        />
+
+        {preview && (
+          <div className="form-avatar-preview col">
+            <p>preview</p>
+            {/* <button className="btn btn-secondary">remove</button> */}
+            <img
+              className="rounded img-thumbnail"
+              src={preview}
+              alt="uploaded avatar"
+              style={{ width: '300px' }}
+            />
+          </div>
+        )}
+      </div>
     </div>
   );
 });
