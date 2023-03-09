@@ -7,6 +7,7 @@ import axios from 'axios';
 interface ShelterInfo {
   _id?: string;
   name: string;
+  organization: string;
   addressLine1: string;
   addressLine2?: string;
   city: string;
@@ -28,6 +29,7 @@ interface ShelterState {
 const initialState: ShelterState = {
   currentShelter: {
     name: '',
+    organization: '',
     addressLine1: '',
     addressLine2: '',
     city: '',

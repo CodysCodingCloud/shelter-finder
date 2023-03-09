@@ -88,10 +88,12 @@ router.get('/:id', async (req, res, next) => {
     const shelter = await Shelter.findOne({
       _id: req.params.id,
     });
-    const avatarDataURI = `data:${
-      shelter.avatar.contentType
-    };base64,${shelter.avatar.data.toString('base64')}`;
-    shelter.avatar = avatarDataURI;
+    console.log(shelter.avatar);
+    const avatarDataURI = shelter.avatar.data
+      ? `data:${
+          shelter.avatar.contentType
+        };base64,${shelter.avatar.data.toString('base64')}`
+      : '/placeholder-shelter.png';
 
     res.status(200).json({
       _id: shelter._id,

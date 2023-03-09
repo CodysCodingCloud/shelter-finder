@@ -19,18 +19,35 @@ export default function ShelterView() {
   // const navigate = useNavigate();
   // type shelterParams = { id: string };
 
-  // const [formError, setFormError] = useState({});
-  // const [disableForm, setDisableForm] = useState(true);
-
   return (
     <div className="single-shelter-container">
       {shelter._id ? (
-        <div>
-          <div>{shelter.name}</div>
+        <div className="container">
+          <h1 className="row">{shelter.name}</h1>
           <img
             src={shelter.avatar ? (shelter.avatar as string) : ''}
             alt={shelter.name as string}
           ></img>
+          <div className="row">
+            <h2 className="">{shelter.organization}</h2>
+            <p className="">{shelter.addressLine1}</p>
+            <p>
+              {shelter.addressLine1} {'\n\ngodly\n\n'} {shelter.addressLine1}
+            </p>
+            {shelter.addressLine2 && <p className="">{shelter.addressLine2}</p>}
+            <p className="">
+              {shelter.city}, {shelter.stateAbbreviation}, {shelter.postal}
+            </p>
+            <p className="">contact: {shelter.phone}</p>
+          </div>
+          <div>
+            <h3>Description</h3>
+            <p className="">{shelter.description}</p>
+            <h3>Requirements</h3>
+            <p className="">{shelter.requirements}</p>
+            <p className="">Capacity: {shelter.capacity || 'N/A'}</p>
+            <p className="">Open Space: {shelter.openSpace || 'N/A'}</p>
+          </div>
         </div>
       ) : (
         <div>This resource does not exist</div>
