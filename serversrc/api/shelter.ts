@@ -80,6 +80,44 @@ router.post('/add', upload.single('avatar'), async (req, res, next) => {
     next(err);
   }
 });
+
+// router.delete('/:id', async (req, res, next) => {
+//   try {
+//     const user = await User.delete(req.user.id);
+//   } catch (error) {
+//     next(err);
+//   }
+// });
+
+router.get('/all-shelter-list', async (req, res, next) => {
+  try {
+    const shelterList = await Shelter.find({}).select({
+      name: 1,
+      organization: 1,
+      addressLine1: 1,
+      addressLine2: 1,
+      city: 1,
+      stateAbbreviation: 1,
+      postal: 1,
+      user: 1,
+    });
+    res.status(200).json(shelterList);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.put('/shelter-list', async (req, res, next) => {
+  try {
+    const shelterList = await Shelter.findAll({
+      _id: req.body._id,
+    });
+    res.status(200).json(shelterList);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.get('/:id', async (req, res, next) => {
   console.log('params?', req.params);
 
@@ -115,13 +153,5 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-
-// router.delete('/:id', async (req, res, next) => {
-//   try {
-//     const user = await User.delete(req.user.id);
-//   } catch (error) {
-//     next(err);
-//   }
-// });
 
 module.exports = router;

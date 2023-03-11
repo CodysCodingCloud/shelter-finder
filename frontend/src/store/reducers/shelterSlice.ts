@@ -4,7 +4,7 @@ import type { AppDispatch } from '../index';
 import axios from 'axios';
 
 // Define a type for the slice state
-interface ShelterInfo {
+export interface ShelterInfo {
   _id?: string;
   name: string;
   organization: string;
@@ -24,6 +24,7 @@ interface ShelterInfo {
 interface ShelterState {
   currentShelter: ShelterInfo;
   myShelterList: ShelterInfo[];
+  allShelters: ShelterInfo[];
 }
 // Define the initial state using that type
 const initialState: ShelterState = {
@@ -42,6 +43,7 @@ const initialState: ShelterState = {
     requirements: '',
   },
   myShelterList: [],
+  allShelters: [],
 };
 const shelterSlice = createSlice({
   name: 'shelter',
@@ -54,11 +56,18 @@ const shelterSlice = createSlice({
       state.currentShelter = { ...action.payload };
       return state;
     },
-    getShelterList: (
+    getUserShelterList: (
       state: ShelterState,
       action: PayloadAction<ShelterInfo[]>
     ) => {
       state.myShelterList = action.payload;
+      return state;
+    },
+    getAllShelterList: (
+      state: ShelterState,
+      action: PayloadAction<ShelterInfo[]>
+    ) => {
+      state.allShelters = action.payload;
       return state;
     },
     logout: (state) => {
@@ -72,8 +81,12 @@ const shelterSlice = createSlice({
   },
 });
 export default shelterSlice.reducer;
-export const { replaceShelterInfo, getShelterList, logout } =
-  shelterSlice.actions;
+export const {
+  replaceShelterInfo,
+  getUserShelterList,
+  getAllShelterList,
+  logout,
+} = shelterSlice.actions;
 // export const selectCount = (state: RootState) => state.shelter.value;
 
 export const createShelter = (shelter: ShelterInfo) => {
@@ -139,7 +152,20 @@ export const fetchUserShelterList = (_id: string) => {
         '/api/shelter/shelter-list',
         _id
       );
-      dispatch(getShelterList(shelterListData));
+      dispatch(getUserShelterList(shelterListData));
+    } catch (error: any) {
+      console.log(error.response.data);
+      // throw error
+    }
+  };
+};
+export const fetchAllShelterList = () => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const { data: shelterListData } = await axios.get(
+        '/api/shelter/all-shelter-list'
+      );
+      dispatch(getAllShelterList(shelterListData));
     } catch (error: any) {
       console.log(error.response.data);
       // throw error

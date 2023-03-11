@@ -8,11 +8,12 @@ import Root from './routes/root';
 import ErrorPage from './components/ErrorPage';
 
 // import Welcome from './components/Welcome';
-import Register from './components/Register';
+import Register from './routes/Register';
 import Login from './components/Login';
 import Welcome from './components/Welcome';
 import ShelterForm from './components/ShelterForm';
 import ShelterView from './components/ShelterView';
+import Shelters from './routes/Shelters';
 // import NavBar from './components/NavBar';
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: 'shelter',
         element: <ShelterForm />,
+      },
+      {
+        path: 'shelters',
+        element: <Shelters />,
       },
       {
         path: 'newshelter',

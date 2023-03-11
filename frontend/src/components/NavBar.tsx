@@ -38,6 +38,11 @@ export default function NavBar() {
           <Link to="/singleview" className="temp">
             singleview
           </Link>
+        </div>{' '}
+        <div>
+          <Link to="/shelters" className="temp">
+            shelters
+          </Link>
         </div>
         <LogoutButton />
       </div>
