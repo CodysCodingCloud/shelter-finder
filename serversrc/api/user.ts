@@ -2,6 +2,7 @@ import { Router } from 'express';
 const router = Router();
 const { User } = require('../db');
 import { hashPassword, authenticateLogin, authByToken } from './jwt';
+import { requireToken } from './gatekeepingMiddleware';
 router.get('/', async (req, res, next) => {
   try {
     res.send({ message: 'hi' });
@@ -51,7 +52,7 @@ router.post('/login', async (req, res, next) => {
     next(err);
   }
 });
-router.post('/token', async (req, res, next) => {
+router.put('/token', async (req: any, res, next) => {
   try {
     if (req.headers.authorization) {
       let user = await authByToken(req.headers.authorization);
@@ -61,15 +62,35 @@ router.post('/token', async (req, res, next) => {
     next(err);
   }
 });
-// router.put('/:id', requireToken, async (req, res, next) => {
-//   try {
-//     const user = await User.findByPk(req.user.id);
-//     await user.update(req.body);
-//     res.send(user);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+router.get('/:id', async (req: any, res, next) => {
+  try {
+    const user = await User.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      req.body,
+      { new: true }
+    );
+    res.send(user);
+  } catch (err) {
+    next(err);
+  }
+});
+router.put('/:id', requireToken, async (req: any, res, next) => {
+  try {
+    console.log('equal ids?', req.user._id == req.params.id);
+    const user = await User.findOneAndUpdate(
+      {
+        _id: req.user._id,
+      },
+      req.body,
+      { new: true }
+    );
+    res.send(user);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // router.delete('/:id', async (req, res, next) => {
 //   try {

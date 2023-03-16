@@ -58,7 +58,7 @@ export const attemptTokenLogin = () => {
       const token = window.localStorage.getItem('token');
       if (token) {
         // console.log(token);
-        const { data: userInfo } = await axios.post(
+        const { data: userInfo } = await axios.put(
           '/api/user/token',
           {},
           {

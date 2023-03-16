@@ -6,7 +6,7 @@ const { User, Shelter } = require('../db');
 // const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
 // const Sequelize = require('sequelize')
 import multer from 'multer';
-
+import { decodeAvatarURI } from './util/avatarURi';
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads');
@@ -119,19 +119,12 @@ router.put('/shelter-list', async (req, res, next) => {
 });
 
 router.get('/:id', async (req, res, next) => {
-  console.log('params?', req.params);
-
-  // let id = '64017e1d7844e1459acedf67';
   try {
     const shelter = await Shelter.findOne({
       _id: req.params.id,
     });
     console.log(shelter.avatar);
-    const avatarDataURI = shelter.avatar.data
-      ? `data:${
-          shelter.avatar.contentType
-        };base64,${shelter.avatar.data.toString('base64')}`
-      : '/placeholder-shelter.png';
+    const avatarDataURI = decodeAvatarURI(shelter);
 
     res.status(200).json({
       _id: shelter._id,
@@ -153,5 +146,36 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
+router.put('/:id', async (req, res, next) => {
+  try {
+    const shelter = await Shelter.findOneAndUpdate(
+      {
+        _id: req.params.id,
+      },
+      req.body,
+      { new: true }
+    );
 
+    const avatarDataURI = decodeAvatarURI(shelter);
+
+    res.status(200).json({
+      _id: shelter._id,
+      user: shelter.user,
+      name: shelter.name,
+      organization: shelter.organization,
+      addressLine1: shelter.addressLine1,
+      addressLine2: shelter.addressLine2,
+      city: shelter.city,
+      stateAbbreviation: shelter.stateAbbreviation,
+      postal: shelter.postal,
+      openSpace: shelter.openSpace,
+      capacity: shelter.capacity,
+      description: shelter.description,
+      requirements: shelter.requirements,
+      avatar: avatarDataURI,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;

@@ -1,28 +1,14 @@
 import { authByToken } from './jwt';
 import { Request, Response, NextFunction } from 'express';
 export const requireToken = async (
-  req: Request & { user: any },
+  req: any,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = authByToken(req.headers.token as String);
+    const user = await authByToken(req.headers.authorization as String);
     req.user = user;
-    next();
-  } catch (error) {
-    next(error);
-  }
-};
-export const isAdmin = async (
-  req: Request & { user: any },
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    if (!req.user.isAdmin) {
-      console.log('not an admin');
-      return res.status(403).send('not an admin');
-    }
+    console.log('authy', user);
     next();
   } catch (error) {
     next(error);
@@ -31,5 +17,4 @@ export const isAdmin = async (
 
 // module.exports = {
 //   requireToken,
-//   isAdmin,
 // };

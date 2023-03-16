@@ -5,10 +5,10 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 // import { useNavigate } from 'react-router-dom';
 // import { IShelter } from '../../../serversrc/db/Shelter';
 
-export default function ShelterView() {
+export default function UserInfo() {
   const dispatch = useAppDispatch();
   // const params: any = useParams();
-  // const allShelters = useAppSelector((state) => state.shelter.allShelters);
+  const user = useAppSelector((state) => state.user);
   React.useEffect(() => {}, [dispatch]);
 
   return <div className="shelters"></div>;
