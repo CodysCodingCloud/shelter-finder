@@ -72,6 +72,7 @@ export const attemptTokenLogin = () => {
     } catch (error) {}
   };
 };
+
 export const createUser = (user: {
   email: string;
   password: string;

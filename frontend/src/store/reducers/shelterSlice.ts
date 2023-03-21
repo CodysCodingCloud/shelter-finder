@@ -97,7 +97,7 @@ export const createShelter = (shelter: ShelterInfo) => {
       formData.append(key, shelter[key] as string | File);
     }
     try {
-      const { data: shelterData } = await axios.post(
+      const { data: shelterData } = await axios.put(
         '/api/shelter/add',
         formData
       );
@@ -148,9 +148,15 @@ export const removeShelter = (shelter: ShelterState) => {
 export const fetchUserShelterList = (_id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
+      const token = window.localStorage.getItem('token');
       const { data: shelterListData } = await axios.put(
         '/api/shelter/shelter-list',
-        _id
+        {},
+        {
+          headers: {
+            authorization: token,
+          },
+        }
       );
       dispatch(getUserShelterList(shelterListData));
     } catch (error: any) {

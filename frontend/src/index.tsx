@@ -5,12 +5,12 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 
 import Root from './routes/root';
-import ErrorPage from './components/ErrorPage';
+import ErrorPage from './routes/ErrorPage';
 
 // import Welcome from './components/Welcome';
 import Register from './routes/Register';
-import Login from './components/Login';
-import Welcome from './components/Welcome';
+import Login from './routes/Login';
+import Welcome from './routes/Welcome';
 import ShelterForm from './components/ShelterForm';
 import ShelterView from './components/ShelterView';
 import Shelters from './routes/Shelters';

@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import path from 'path';
-const fs = require('fs');
+import fs from 'fs';
 const router = Router();
 const { User, Shelter } = require('../db');
-// const { isAdmin, requireToken } = require('./gatekeepingMiddleware');
+const { requireToken } = require('./gatekeepingMiddleware');
 // const Sequelize = require('sequelize')
 import multer from 'multer';
 import { decodeAvatarURI } from './util/avatarURi';
+import { authByToken } from './jwt';
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, 'uploads');
@@ -28,58 +29,57 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
-router.post('/add', upload.single('avatar'), async (req, res, next) => {
-  try {
-    let shelter = req.body;
-    if (req.file) {
-      console.log(req.file.path);
-      console.log(req.protocol);
-      console.log(req.hostname);
-      console.log(__dirname);
-
-      shelter.avatar = {
-        data: fs.readFileSync(
-          path.join(__dirname + '/../../uploads/' + req.file.filename)
-        ),
-        contentType: req.file.mimetype,
-      };
-    }
-    console.log('hi', shelter.avatar);
-
-    console.log(req.body);
-
-    if (
-      !shelter.name ||
-      !shelter.addressLine1 ||
-      !shelter.stateAbbreviation ||
-      !shelter.postal ||
-      !shelter.capacity
-    ) {
-      res.status(400);
-      throw new Error('please complete the form');
-    } else {
-      const sheltterExists = await Shelter.find({
-        $and: [{ name: shelter.name }, { addressLine1: shelter.addressLine1 }],
-      });
-      if (sheltterExists.length > 0) {
-        if (req.file) {
-          fs.unlink(req.file.path, (err: Error) => {
-            if (err) {
-              console.error(err);
-              return;
-            }
-          });
-        }
+router.put(
+  '/add',
+  // requireToken,
+  upload.single('avatar'),
+  async (req, res, next) => {
+    try {
+      let shelter = req.body;
+      if (
+        !shelter.name ||
+        !shelter.addressLine1 ||
+        !shelter.stateAbbreviation ||
+        !shelter.postal ||
+        !shelter.capacity
+      ) {
         res.status(400);
-        throw new Error('Shelter already exists');
+        throw new Error('please complete the form');
+      } else {
+        const sheltterExists = await Shelter.find({
+          $and: [
+            { name: shelter.name },
+            { addressLine1: shelter.addressLine1 },
+          ],
+        });
+        if (sheltterExists.length > 0) {
+          // if (req.file) {
+          //   fs.unlink(req.file.path, (err) => {
+          //     if (err) {
+          //       throw new Error('Cannot create file');
+          //     }
+          //   });
+          // }
+          res.status(400);
+          throw new Error('Shelter already exists');
+        }
+        if (req.file) {
+          shelter.avatar = {
+            data: fs.readFileSync(
+              path.join(__dirname + '/../../uploads/' + req.file.filename)
+            ),
+            contentType: req.file.mimetype,
+          };
+        }
+        const newShelter = await Shelter.create(shelter);
+        console.log(newShelter._id);
+        res.status(200).send(newShelter);
       }
-      const newShelter = await Shelter.create(shelter);
-      res.status(200).send(newShelter);
+    } catch (err) {
+      next(err);
     }
-  } catch (err) {
-    next(err);
   }
-});
+);
 
 // router.delete('/:id', async (req, res, next) => {
 //   try {
@@ -107,10 +107,10 @@ router.get('/all-shelter-list', async (req, res, next) => {
   }
 });
 
-router.put('/shelter-list', async (req, res, next) => {
+router.put('/shelter-list', requireToken, async (req: any, res, next) => {
   try {
-    const shelterList = await Shelter.findAll({
-      _id: req.body._id,
+    const shelterList = await Shelter.find({
+      _id: req.user._id,
     });
     res.status(200).json(shelterList);
   } catch (err) {
@@ -123,7 +123,6 @@ router.get('/:id', async (req, res, next) => {
     const shelter = await Shelter.findOne({
       _id: req.params.id,
     });
-    console.log(shelter.avatar);
     const avatarDataURI = decodeAvatarURI(shelter);
 
     res.status(200).json({
@@ -146,15 +145,17 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', requireToken, async (req: any, res, next) => {
   try {
     const shelter = await Shelter.findOneAndUpdate(
       {
         _id: req.params.id,
+        user: req.user._id,
       },
       req.body,
       { new: true }
     );
+    // shelter.update(req.body)
 
     const avatarDataURI = decodeAvatarURI(shelter);
 

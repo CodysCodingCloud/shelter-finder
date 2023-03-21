@@ -8,13 +8,11 @@ export const requireToken = async (
   try {
     const user = await authByToken(req.headers.authorization as String);
     req.user = user;
-    console.log('authy', user);
     next();
   } catch (error) {
     next(error);
   }
 };
-
 // module.exports = {
 //   requireToken,
 // };
