@@ -149,9 +149,8 @@ export const fetchUserShelterList = (_id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
       const token = window.localStorage.getItem('token');
-      const { data: shelterListData } = await axios.put(
+      const { data: shelterListData } = await axios.get(
         '/api/shelter/shelter-list',
-        {},
         {
           headers: {
             authorization: token,

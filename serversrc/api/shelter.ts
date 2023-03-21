@@ -110,14 +110,23 @@ router.get('/all-shelter-list', async (req, res, next) => {
 router.put('/shelter-list', requireToken, async (req: any, res, next) => {
   try {
     const shelterList = await Shelter.find({
-      _id: req.user._id,
+      user: req.user._id,
     });
     res.status(200).json(shelterList);
   } catch (err) {
     next(err);
   }
 });
-
+router.get('/shelter-list', requireToken, async (req: any, res, next) => {
+  try {
+    const shelterList = await Shelter.find({
+      user: req.user._id,
+    });
+    res.status(200).json(shelterList);
+  } catch (err) {
+    next(err);
+  }
+});
 router.get('/:id', async (req, res, next) => {
   try {
     const shelter = await Shelter.findOne({
