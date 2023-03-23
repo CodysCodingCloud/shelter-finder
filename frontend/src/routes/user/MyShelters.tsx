@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 // import { useNavigate } from 'react-router-dom';
 // import { IShelter } from '../../../serversrc/db/Shelter';
 
-export default function ShelterView() {
+export default function MyShelters() {
   const dispatch = useAppDispatch();
   // const params: any = useParams();
   // const allShelters = useAppSelector((state) => state.shelter.allShelters);

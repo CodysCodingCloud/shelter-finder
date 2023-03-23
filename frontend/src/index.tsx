@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
-
 import Root from './routes/root';
 import ErrorPage from './routes/ErrorPage';
 
@@ -14,6 +13,7 @@ import Welcome from './routes/Welcome';
 import ShelterForm from './components/ShelterForm';
 import ShelterView from './components/ShelterView';
 import Shelters from './routes/Shelters';
+import MyShelters from './routes/user/MyShelters';
 // import NavBar from './components/NavBar';
 
 const router = createBrowserRouter([
@@ -37,12 +37,12 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: 'shelter',
-        element: <ShelterForm />,
-      },
-      {
         path: 'shelters',
         element: <Shelters />,
+      },
+      {
+        path: 'my-shelters',
+        element: <MyShelters />,
       },
       {
         path: 'newshelter',

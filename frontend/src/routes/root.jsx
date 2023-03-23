@@ -11,7 +11,7 @@ export default function Root() {
   }, [dispatch]);
   return (
     <>
-      <div id="sidebar">
+      <div>
         <Welcome></Welcome>
         <NavBar></NavBar>
       </div>
