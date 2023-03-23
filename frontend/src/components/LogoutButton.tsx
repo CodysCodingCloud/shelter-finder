@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { logoutThunk } from '../store/reducers/userSlice';
 
-export default function LogoutButton() {
+export default function LogoutButton({ className }: { className?: string }) {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleSubmit = async () => {
@@ -14,7 +14,7 @@ export default function LogoutButton() {
     navigate(0);
   };
   return (
-    <button className="logout" onClick={handleSubmit}>
+    <button className={className ? className : 'logout'} onClick={handleSubmit}>
       Logout
     </button>
   );

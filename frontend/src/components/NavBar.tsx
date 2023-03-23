@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-// import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { useAppSelector } from '../store/hooks';
 import LogoutButton from './LogoutButton';
 export default function NavBar() {
-  // const user = useAppSelector((state) => state.user);
+  const id = useAppSelector((state) => state.user._id);
   // function toggle(e) {
   //   console.log(e.target);
   // }
@@ -29,33 +29,42 @@ export default function NavBar() {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
+        <div className="navbar-nav">
           {/* <li className="nav-item active"> */}
-          <Link className="nav-item nav-link" to="/">
+          <Link className="nav-item nav-link text-center" to="/">
             Home
           </Link>
-          <Link className="nav-item nav-link" to="/login">
-            login
-          </Link>
-          <Link className="nav-item nav-link disabled" to="/register">
-            register
-          </Link>
-          <Link className="nav-item nav-link" to="/shelters">
-            shelter list
-          </Link>
-          <Link className="nav-item nav-link" to="/newshelter">
-            newshelter reg
-          </Link>
-          <Link className="nav-item nav-link" to="/singleview">
-            singleview
-          </Link>
-          <Link className="nav-item nav-link" to="/my-shelters">
-            MyShelters
-          </Link>
-          <Link className="nav-item nav-link" to="/shelter">
-            shelter
-          </Link>
-        </ul>
+          {!id && (
+            <>
+              <Link className="nav-item nav-link text-center" to="/login">
+                login
+              </Link>
+              <Link className="nav-item nav-link text-center" to="/register">
+                register
+              </Link>
+            </>
+          )}
+          {id && (
+            <>
+              <Link className="nav-item nav-link text-center" to="/shelters">
+                shelter list
+              </Link>
+              <Link className="nav-item nav-link text-center" to="/newshelter">
+                newshelter reg
+              </Link>
+              <Link className="nav-item nav-link text-center" to="/singleview">
+                singleview
+              </Link>
+              <Link className="nav-item nav-link text-center" to="/my-shelters">
+                MyShelters
+              </Link>
+              <Link className="nav-item nav-link text-center" to="/shelter">
+                shelter
+              </Link>
+              <LogoutButton className="nav-item nav-link text-center"></LogoutButton>
+            </>
+          )}
+        </div>
       </div>
     </nav>
   );
