@@ -9,11 +9,9 @@ export default function NavBar() {
   // }
   return (
     <nav className="navbar navbar-light bg-light navbar-expand-md">
-      <a className="navbar-brand" href="/">
-        <Link to="/" className="navbar-brand">
-          <img src="/logo.svg" width="30" height="30" alt="" /> TempHome
-        </Link>
-      </a>
+      <Link to="/" className="navbar-brand">
+        <img src="/logo.svg" width="30" height="30" alt="" /> Shelter Finder
+      </Link>
 
       <button
         className="navbar-toggler"
@@ -23,7 +21,6 @@ export default function NavBar() {
         aria-controls="navbarNav"
         aria-expanded="false"
         aria-label="Toggle navigation"
-        // onClick={toggle}
       >
         <span className="navbar-toggler-icon"></span>
       </button>
@@ -33,6 +30,9 @@ export default function NavBar() {
           {/* <li className="nav-item active"> */}
           <Link className="nav-item nav-link text-center" to="/">
             Home
+          </Link>
+          <Link className="nav-item nav-link text-center" to="/shelters">
+            shelter list
           </Link>
           {!id && (
             <>
@@ -46,9 +46,6 @@ export default function NavBar() {
           )}
           {id && (
             <>
-              <Link className="nav-item nav-link text-center" to="/shelters">
-                shelter list
-              </Link>
               <Link className="nav-item nav-link text-center" to="/newshelter">
                 newshelter reg
               </Link>

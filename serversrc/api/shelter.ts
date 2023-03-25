@@ -13,11 +13,18 @@ var storage = multer.diskStorage({
     cb(null, 'uploads');
   },
   filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.fieldname);
+    const ext = file.mimetype.split('/')[1];
+    cb(null, Date.now() + '-' + file.fieldname + '.' + ext);
   },
 });
-
-var upload = multer({ storage: storage });
+const multerFilter = (req: any, file: any, cb: any) => {
+  if (file.mimetype.split('/')[0] === 'image') {
+    cb(null, true);
+  } else {
+    cb(new Error('Not an image type!!'), false);
+  }
+};
+var upload = multer({ storage: storage, fileFilter: multerFilter });
 
 // const upload = multer({ dest: 'uploads/' });
 router.get('/', async (req, res, next) => {
@@ -53,23 +60,26 @@ router.put(
           ],
         });
         if (sheltterExists.length > 0) {
-          // if (req.file) {
-          //   fs.unlink(req.file.path, (err) => {
-          //     if (err) {
-          //       throw new Error('Cannot create file');
-          //     }
-          //   });
-          // }
+          if (req.file) {
+            fs.unlink(req.file.path, (err) => {
+              if (err) {
+                throw new Error('Cannot remove file');
+              }
+            });
+          }
           res.status(400);
           throw new Error('Shelter already exists');
         }
         if (req.file) {
-          shelter.avatar = {
-            data: fs.readFileSync(
-              path.join(__dirname + '/../../uploads/' + req.file.filename)
-            ),
-            contentType: req.file.mimetype,
-          };
+          console.log(req.file);
+          shelter.avatar = '/' + req.file.filename;
+
+          // shelter.avatar = {
+          //   data: fs.readFileSync(
+          //     path.join(__dirname + '/../../uploads/' + req.file.filename)
+          //   ),
+          //   contentType: req.file.mimetype,
+          // };
         }
         const newShelter = await Shelter.create(shelter);
         console.log(newShelter._id);
@@ -132,24 +142,25 @@ router.get('/:id', async (req, res, next) => {
     const shelter = await Shelter.findOne({
       _id: req.params.id,
     });
-    const avatarDataURI = decodeAvatarURI(shelter);
+    // const avatarDataURI = decodeAvatarURI(shelter);
+    res.status(200).json(shelter);
 
-    res.status(200).json({
-      _id: shelter._id,
-      user: shelter.user,
-      name: shelter.name,
-      organization: shelter.organization,
-      addressLine1: shelter.addressLine1,
-      addressLine2: shelter.addressLine2,
-      city: shelter.city,
-      stateAbbreviation: shelter.stateAbbreviation,
-      postal: shelter.postal,
-      openSpace: shelter.openSpace,
-      capacity: shelter.capacity,
-      description: shelter.description,
-      requirements: shelter.requirements,
-      avatar: avatarDataURI,
-    });
+    // res.status(200).json({
+    //   _id: shelter._id,
+    //   user: shelter.user,
+    //   name: shelter.name,
+    //   organization: shelter.organization,
+    //   addressLine1: shelter.addressLine1,
+    //   addressLine2: shelter.addressLine2,
+    //   city: shelter.city,
+    //   stateAbbreviation: shelter.stateAbbreviation,
+    //   postal: shelter.postal,
+    //   openSpace: shelter.openSpace,
+    //   capacity: shelter.capacity,
+    //   description: shelter.description,
+    //   requirements: shelter.requirements,
+    //   avatar: avatarDataURI,
+    // });
   } catch (err) {
     next(err);
   }

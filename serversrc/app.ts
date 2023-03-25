@@ -5,8 +5,9 @@ const app: Application = express();
 
 //middleware
 app.use(express.static(path.join(__dirname, '..', 'build')));
-app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '..', 'uploads')));
+app.use(express.json());
 app.use('/api', require('./api'));
 app.use(bodyParser.json({ limit: '16mb' }));
 app.use(bodyParser.urlencoded({ limit: '16mb', extended: true }));
@@ -24,6 +25,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   });
 });
 app.get('/*', (req: Request, res: Response) => {
+  // console.log('does this ruin?');
   if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '..', 'frontend', 'build', 'index.html'));
   } else {

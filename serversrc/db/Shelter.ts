@@ -67,8 +67,9 @@ const shelterSchema = new Schema<IShelter>(
       required: [false],
     },
     avatar: {
-      data: Buffer,
-      contentType: String,
+      type: String,
+      // data: Buffer,
+      // contentType: String,
       required: false,
     },
   },
