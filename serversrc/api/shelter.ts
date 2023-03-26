@@ -5,31 +5,12 @@ const router = Router();
 const { User, Shelter } = require('../db');
 const { requireToken } = require('./gatekeepingMiddleware');
 // const Sequelize = require('sequelize')
-import multer from 'multer';
-import { decodeAvatarURI } from './util/avatarURi';
+// import { decodeAvatarURI } from './util/avatarURi';
 import { authByToken } from './jwt';
-var storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads');
-  },
-  filename: (req, file, cb) => {
-    const ext = file.mimetype.split('/')[1];
-    cb(null, Date.now() + '-' + file.fieldname + '.' + ext);
-  },
-});
-const multerFilter = (req: any, file: any, cb: any) => {
-  if (file.mimetype.split('/')[0] === 'image') {
-    cb(null, true);
-  } else {
-    cb(new Error('Not an image type!!'), false);
-  }
-};
-var upload = multer({ storage: storage, fileFilter: multerFilter });
+import { upload } from './util/multer';
 
-// const upload = multer({ dest: 'uploads/' });
 router.get('/', async (req, res, next) => {
   try {
-    // req.body.isAdmin = false;
     const shelter = await Shelter.find();
     res.status(200).send(shelter);
   } catch (err) {
@@ -73,13 +54,6 @@ router.put(
         if (req.file) {
           console.log(req.file);
           shelter.avatar = '/' + req.file.filename;
-
-          // shelter.avatar = {
-          //   data: fs.readFileSync(
-          //     path.join(__dirname + '/../../uploads/' + req.file.filename)
-          //   ),
-          //   contentType: req.file.mimetype,
-          // };
         }
         const newShelter = await Shelter.create(shelter);
         console.log(newShelter._id);
@@ -91,13 +65,14 @@ router.put(
   }
 );
 
-// router.delete('/:id', async (req, res, next) => {
-//   try {
-//     const user = await User.delete(req.user.id);
-//   } catch (error) {
-//     next(err);
-//   }
-// });
+router.delete('/:id', requireToken, async (req: any, res, next) => {
+  try {
+    await Shelter.delete({ user: req.user, _id: req.params.id });
+    // const user = await User.delete(req.user.id);
+  } catch (err) {
+    next(err);
+  }
+});
 
 router.get('/all-shelter-list', async (req, res, next) => {
   try {
@@ -142,25 +117,7 @@ router.get('/:id', async (req, res, next) => {
     const shelter = await Shelter.findOne({
       _id: req.params.id,
     });
-    // const avatarDataURI = decodeAvatarURI(shelter);
     res.status(200).json(shelter);
-
-    // res.status(200).json({
-    //   _id: shelter._id,
-    //   user: shelter.user,
-    //   name: shelter.name,
-    //   organization: shelter.organization,
-    //   addressLine1: shelter.addressLine1,
-    //   addressLine2: shelter.addressLine2,
-    //   city: shelter.city,
-    //   stateAbbreviation: shelter.stateAbbreviation,
-    //   postal: shelter.postal,
-    //   openSpace: shelter.openSpace,
-    //   capacity: shelter.capacity,
-    //   description: shelter.description,
-    //   requirements: shelter.requirements,
-    //   avatar: avatarDataURI,
-    // });
   } catch (err) {
     next(err);
   }
@@ -175,26 +132,7 @@ router.put('/:id', requireToken, async (req: any, res, next) => {
       req.body,
       { new: true }
     );
-    // shelter.update(req.body)
-
-    const avatarDataURI = decodeAvatarURI(shelter);
-
-    res.status(200).json({
-      _id: shelter._id,
-      user: shelter.user,
-      name: shelter.name,
-      organization: shelter.organization,
-      addressLine1: shelter.addressLine1,
-      addressLine2: shelter.addressLine2,
-      city: shelter.city,
-      stateAbbreviation: shelter.stateAbbreviation,
-      postal: shelter.postal,
-      openSpace: shelter.openSpace,
-      capacity: shelter.capacity,
-      description: shelter.description,
-      requirements: shelter.requirements,
-      avatar: avatarDataURI,
-    });
+    res.status(200).json(shelter);
   } catch (err) {
     next(err);
   }
