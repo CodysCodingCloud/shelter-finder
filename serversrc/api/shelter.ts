@@ -122,6 +122,25 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
+router.put('/changeowner/:id', requireToken, async (req: any, res, next) => {
+  try {
+    const user = await User.find({ email: req.body.newUserEmail });
+    if (!user) {
+      throw new Error('email not found');
+    }
+    const shelter = await Shelter.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        user: req.user._id,
+      },
+      { user: user._id },
+      { new: true }
+    );
+    res.status(200).json(shelter);
+  } catch (err) {
+    next(err);
+  }
+});
 router.put('/:id', requireToken, async (req: any, res, next) => {
   try {
     const shelter = await Shelter.findOneAndUpdate(
