@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { RootState, AppDispatch } from '../index';
+import type { AppDispatch } from '../index';
 import axios from 'axios';
 
 // Define a type for the slice state

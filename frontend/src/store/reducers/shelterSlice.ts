@@ -164,6 +164,7 @@ export const fetchUserShelterList = (_id: string) => {
     }
   };
 };
+
 export const fetchAllShelterList = () => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -171,6 +172,25 @@ export const fetchAllShelterList = () => {
         '/api/shelter/all-shelter-list'
       );
       dispatch(getAllShelterList(shelterListData));
+    } catch (error: any) {
+      console.log(error.response.data);
+      // throw error
+    }
+  };
+};
+export const changeShelterOwner = (email: string, id: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      const token = window.localStorage.getItem('token');
+      const { data: shelterListData } = await axios.get(
+        `/api/shelter/changeowner/${id}`,
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch(replaceShelterInfo(shelterListData));
     } catch (error: any) {
       console.log(error.response.data);
       // throw error
