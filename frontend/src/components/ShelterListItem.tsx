@@ -6,10 +6,9 @@ import React, { useState } from 'react';
 
 export default function ShelterListItem({ shelterInfo }: any) {
   return (
-    <div className="container">
-      <h1 className="row">{shelterInfo.name}</h1>
-      <div className="row">
-        <div className="col-4">
+    <div className="row">
+      <div className="card">
+        <div className="row card-body">
           <img
             src={
               shelterInfo.avatar
@@ -17,24 +16,29 @@ export default function ShelterListItem({ shelterInfo }: any) {
                 : 'placeholder-shelter.png'
             }
             alt={shelterInfo.name as string}
-            className="col-12"
+            className="col-md-6 "
+            // style={{ width: '100%' }}
           ></img>
-        </div>
-        <div className="col-8">
-          <h2 className="">{shelterInfo.organization}</h2>
-          <p className="">{shelterInfo.addressLine1}</p>
-          <p>
-            {shelterInfo.addressLine1} {'\n\ngodly\n\n'}{' '}
-            {shelterInfo.addressLine1}
-          </p>
-          {shelterInfo.addressLine2 && (
-            <p className="">{shelterInfo.addressLine2}</p>
-          )}
-          <p className="">
-            {shelterInfo.city}, {shelterInfo.stateAbbreviation},
-            {shelterInfo.postal}
-          </p>
-          <p className="">contact: {shelterInfo.phone}</p>
+
+          <div className="col-md-6">
+            <h2 className="card-title">{shelterInfo.name}</h2>
+            <h3 className="card-subtitle mb-2 text-muted">
+              {shelterInfo.organization}
+            </h3>
+            <p className="card-text">{shelterInfo.addressLine1}</p>
+            <p className="card-text">
+              {shelterInfo.addressLine1} {'\n\ngodly\n\n'}{' '}
+              {shelterInfo.addressLine1}
+            </p>
+            {shelterInfo.addressLine2 && (
+              <p className="">{shelterInfo.addressLine2}</p>
+            )}
+            <p className="">
+              {shelterInfo.city}, {shelterInfo.stateAbbreviation},
+              {shelterInfo.postal}
+            </p>
+            <p className="">contact: {shelterInfo.phone}</p>
+          </div>
         </div>
       </div>
     </div>

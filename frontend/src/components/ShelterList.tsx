@@ -9,7 +9,7 @@ export default function ShelterList({
   shelterList: ShelterInfo[];
 }) {
   return (
-    <div className="single-shelter-container">
+    <div className="single-shelter-container container">
       {shelterList &&
         shelterList.map((shelterInfo) => (
           <ShelterListItem shelterInfo={shelterInfo} key={shelterInfo._id} />
