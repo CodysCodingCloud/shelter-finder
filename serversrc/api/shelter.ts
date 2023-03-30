@@ -85,6 +85,7 @@ router.get('/all-shelter-list', async (req, res, next) => {
       stateAbbreviation: 1,
       postal: 1,
       user: 1,
+      avatar: 1,
     });
     res.status(200).json(shelterList);
   } catch (err) {

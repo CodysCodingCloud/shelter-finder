@@ -12,7 +12,7 @@ export default function ShelterList({
     <div className="single-shelter-container">
       {shelterList &&
         shelterList.map((shelterInfo) => (
-          <ShelterListItem shelterInfo={shelterInfo} />
+          <ShelterListItem shelterInfo={shelterInfo} key={shelterInfo._id} />
         ))}
     </div>
   );
