@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import LogoutButton from './LogoutButton';
@@ -8,6 +8,17 @@ export default function NavBar() {
   // function toggle(e) {
   //   console.log(e.target);
   // }
+  const navRef = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  function collapser(event: MouseEvent<HTMLDivElement>) {
+    console.log(event.target);
+    if (navRef.current) {
+      navRef.current.classList.remove('show');
+    }
+    if (btnRef.current) {
+      btnRef.current.classList.add('collapsed');
+    }
+  }
   return (
     <nav className="navbar bg-light navbar-expand-md">
       <div className="container-fluid">
@@ -17,6 +28,7 @@ export default function NavBar() {
         </Link>
 
         <button
+          ref={btnRef}
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
@@ -28,7 +40,12 @@ export default function NavBar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div
+          ref={navRef}
+          className="collapse navbar-collapse"
+          id="navbarNavAltMarkup"
+          onClick={collapser}
+        >
           <div className="navbar-nav">
             <NavLink className="nav-link" to="/">
               Home
