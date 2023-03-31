@@ -5,10 +5,10 @@ import LogoutButton from './LogoutButton';
 
 export default function NavBar() {
   const id = useAppSelector((state) => state.user._id);
-
   const navRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   function collapser(event: MouseEvent<HTMLDivElement>) {
+    console.log(event.target);
     if (navRef.current) {
       navRef.current.classList.remove('show');
     }
@@ -43,47 +43,40 @@ export default function NavBar() {
           id="navbarNavAltMarkup"
           onClick={collapser}
         >
-          <div
-            ref={navRef}
-            className="collapse navbar-collapse"
-            id="navbarNavAltMarkup"
-            onClick={collapser}
-          >
-            <div className="navbar-nav">
-              <NavLink className="nav-link" to="/">
-                Home
-              </NavLink>
-              <NavLink className="nav-link" to="/shelters">
-                shelter list
-              </NavLink>
-              {!id && (
-                <>
-                  <NavLink className="nav-link" to="/login">
-                    login
-                  </NavLink>
-                  <NavLink className="nav-link" to="/register">
-                    register
-                  </NavLink>
-                </>
-              )}
-              {id && (
-                <>
-                  <NavLink className="nav-link" to="/newshelter">
-                    Register Shelter
-                  </NavLink>
-                  {/* <NavLink className="nav-link" to="/singleview">
+          <div className="navbar-nav">
+            <NavLink className="nav-link" to="/">
+              Home
+            </NavLink>
+            <NavLink className="nav-link" to="/shelters">
+              shelter list
+            </NavLink>
+            {!id && (
+              <>
+                <NavLink className="nav-link" to="/login">
+                  login
+                </NavLink>
+                <NavLink className="nav-link" to="/register">
+                  register
+                </NavLink>
+              </>
+            )}
+            {id && (
+              <>
+                <NavLink className="nav-link" to="/newshelter">
+                  Register Shelter
+                </NavLink>
+                {/* <NavLink className="nav-link" to="/singleview">
                   singleview
                 </NavLink> */}
-                  <NavLink className="nav-link" to="/my-shelters">
-                    MyShelters
-                  </NavLink>
-                  <NavLink className="nav-link" to="/shelter">
-                    shelter
-                  </NavLink>
-                  <LogoutButton className="nav-link"></LogoutButton>
-                </>
-              )}
-            </div>
+                <NavLink className="nav-link" to="/my-shelters">
+                  MyShelters
+                </NavLink>
+                <NavLink className="nav-link" to="/shelter">
+                  shelter
+                </NavLink>
+                <LogoutButton className="nav-link"></LogoutButton>
+              </>
+            )}
           </div>
         </div>
       </div>
