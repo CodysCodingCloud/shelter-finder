@@ -1,66 +1,66 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import LogoutButton from './LogoutButton';
+
 export default function NavBar() {
   const id = useAppSelector((state) => state.user._id);
   // function toggle(e) {
   //   console.log(e.target);
   // }
   return (
-    <nav className="navbar fixed-top navbar-light bg-light navbar-expand-md">
+    <nav className="navbar bg-light navbar-expand-md">
       <div className="container-fluid">
-        <NavLink to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           <img src="/logo.svg" width="30" height="30" alt="shelter logo" />
           Shelter Finder
-        </NavLink>
+        </Link>
 
         <button
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            {/* <li className="nav-item active"> */}
-            <NavLink className="nav-item nav-link" to="/">
+            <Link className="nav-link" to="/">
               Home
-            </NavLink>
-            <NavLink className="nav-item nav-link" to="/shelters">
+            </Link>
+            <Link className="nav-link" to="/shelters">
               shelter list
-            </NavLink>
+            </Link>
             {!id && (
               <>
-                <NavLink className="nav-item nav-link" to="/login">
+                <Link className="nav-link" to="/login">
                   login
-                </NavLink>
-                <NavLink className="nav-item nav-link" to="/register">
+                </Link>
+                <Link className="nav-link" to="/register">
                   register
-                </NavLink>
+                </Link>
               </>
             )}
             {id && (
               <>
-                <NavLink className="nav-item nav-link" to="/newshelter">
-                  newshelter reg
-                </NavLink>
-                <NavLink className="nav-item nav-link" to="/singleview">
+                <Link className="nav-link" to="/newshelter">
+                  Register Shelter
+                </Link>
+                {/* <Link className="nav-link" to="/singleview">
                   singleview
-                </NavLink>
-                <NavLink className="nav-item nav-link" to="/my-shelters">
+                </Link> */}
+                <Link className="nav-link" to="/my-shelters">
                   MyShelters
-                </NavLink>
-                <NavLink className="nav-item nav-link" to="/shelter">
+                </Link>
+                <Link className="nav-link" to="/shelter">
                   shelter
-                </NavLink>
-                <LogoutButton className="nav-item nav-link"></LogoutButton>
+                </Link>
+                <LogoutButton className="nav-link"></LogoutButton>
               </>
             )}
           </div>
