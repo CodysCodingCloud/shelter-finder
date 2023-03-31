@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import LogoutButton from './LogoutButton';
 
@@ -30,36 +30,36 @@ export default function NavBar() {
 
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link className="nav-link" to="/">
+            <NavLink className="nav-link" to="/">
               Home
-            </Link>
-            <Link className="nav-link" to="/shelters">
+            </NavLink>
+            <NavLink className="nav-link" to="/shelters">
               shelter list
-            </Link>
+            </NavLink>
             {!id && (
               <>
-                <Link className="nav-link" to="/login">
+                <NavLink className="nav-link" to="/login">
                   login
-                </Link>
-                <Link className="nav-link" to="/register">
+                </NavLink>
+                <NavLink className="nav-link" to="/register">
                   register
-                </Link>
+                </NavLink>
               </>
             )}
             {id && (
               <>
-                <Link className="nav-link" to="/newshelter">
+                <NavLink className="nav-link" to="/newshelter">
                   Register Shelter
-                </Link>
-                {/* <Link className="nav-link" to="/singleview">
+                </NavLink>
+                {/* <NavLink className="nav-link" to="/singleview">
                   singleview
-                </Link> */}
-                <Link className="nav-link" to="/my-shelters">
+                </NavLink> */}
+                <NavLink className="nav-link" to="/my-shelters">
                   MyShelters
-                </Link>
-                <Link className="nav-link" to="/shelter">
+                </NavLink>
+                <NavLink className="nav-link" to="/shelter">
                   shelter
-                </Link>
+                </NavLink>
                 <LogoutButton className="nav-link"></LogoutButton>
               </>
             )}
