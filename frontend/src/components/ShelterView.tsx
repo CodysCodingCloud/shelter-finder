@@ -32,7 +32,7 @@ export default function ShelterView() {
             alt={shelter.name as string}
             className="col-12"
           ></img>
-          <div className="row">
+          <div className="col-12">
             <h2 className="">{shelter.organization}</h2>
             <p className="">{shelter.addressLine1}</p>
             <p>
