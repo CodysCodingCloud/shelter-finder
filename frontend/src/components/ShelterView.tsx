@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getShelter } from '../store/reducers/shelterSlice';
 // import { useNavigate } from 'react-router-dom';
 // import { IShelter } from '../../../serversrc/db/Shelter';
-import FormItem from './FormItem';
 
 export default function ShelterView() {
   const dispatch = useAppDispatch();
@@ -23,10 +22,15 @@ export default function ShelterView() {
     <div className="single-shelter-container">
       {shelter._id ? (
         <div className="container">
-          <h1 className="row">{shelter.name}</h1>
+          <h1 className="col-12">{shelter.name}</h1>
           <img
-            src={shelter.avatar ? (shelter.avatar as string) : ''}
+            src={
+              shelter.avatar
+                ? '/' + (shelter.avatar as string)
+                : '/placeholder-shelter.png'
+            }
             alt={shelter.name as string}
+            className="col-12"
           ></img>
           <div className="row">
             <h2 className="">{shelter.organization}</h2>
