@@ -8,7 +8,7 @@ export default function MyShelters() {
   const dispatch = useAppDispatch();
   const myshelter = useAppSelector((state) => state.shelter.myShelterList);
   React.useEffect(() => {
-    dispatch(fetchUserShelterList);
+    dispatch(fetchUserShelterList());
   }, [dispatch]);
 
   return (
