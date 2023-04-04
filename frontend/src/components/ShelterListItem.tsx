@@ -44,7 +44,7 @@ export default function ShelterListItem({ shelterInfo }: any) {
             to={`/singleview/${shelterInfo._id}`}
             className="btn btn-primary"
           >
-            more infor
+            more info
           </Link>
         </div>
       </div>
