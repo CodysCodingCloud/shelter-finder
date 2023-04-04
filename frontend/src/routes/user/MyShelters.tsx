@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-// import { getShelter } from '../store/reducers/shelterSlice';
-// import { useNavigate } from 'react-router-dom';
 // import { IShelter } from '../../../serversrc/db/Shelter';
-
+import { fetchUserShelterList } from '../../store/reducers/shelterSlice';
+import ShelterList from '../../components/ShelterList';
 export default function MyShelters() {
   const dispatch = useAppDispatch();
-  // const params: any = useParams();
-  // const allShelters = useAppSelector((state) => state.shelter.allShelters);
-  React.useEffect(() => {}, [dispatch]);
+  const myshelter = useAppSelector((state) => state.shelter.myShelterList);
+  React.useEffect(() => {
+    dispatch(fetchUserShelterList);
+  }, [dispatch]);
 
-  return <div className="shelters"></div>;
+  return (
+    <div className="shelters">
+      <h1>My Shelters</h1>
+      <ShelterList shelterList={myshelter} />
+    </div>
+  );
 }

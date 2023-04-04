@@ -145,12 +145,12 @@ export const removeShelter = (shelter: ShelterState) => {
     }
   };
 };
-export const fetchUserShelterList = (_id: string) => {
+export const fetchUserShelterList = () => {
   return async (dispatch: AppDispatch) => {
     try {
       const token = window.localStorage.getItem('token');
       const { data: shelterListData } = await axios.get(
-        '/api/shelter/shelter-list',
+        '/api/shelter/user-shelter-list',
         {
           headers: {
             authorization: token,
