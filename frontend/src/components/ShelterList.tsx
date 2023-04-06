@@ -1,7 +1,7 @@
 import React from 'react';
 import ShelterListItem from './ShelterListItem';
 
-import { ShelterInfo } from '../store/reducers/shelterSlice';
+import { ShelterInfo } from '../types/ShelterInfo';
 
 export default function ShelterList({
   shelterList,

@@ -113,16 +113,7 @@ router.get('/user-shelter-list', requireToken, async (req: any, res, next) => {
     next(err);
   }
 });
-router.get('/:id', async (req, res, next) => {
-  try {
-    const shelter = await Shelter.findOne({
-      _id: req.params.id,
-    });
-    res.status(200).json(shelter);
-  } catch (err) {
-    next(err);
-  }
-});
+
 router.put('/changeowner/:id', requireToken, async (req: any, res, next) => {
   try {
     const user = await User.find({ email: req.body.newUserEmail });
@@ -142,6 +133,18 @@ router.put('/changeowner/:id', requireToken, async (req: any, res, next) => {
     next(err);
   }
 });
+
+router.get('/:id', async (req, res, next) => {
+  try {
+    const shelter = await Shelter.findOne({
+      _id: req.params.id,
+    });
+    res.status(200).json(shelter);
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.put('/:id', requireToken, async (req: any, res, next) => {
   try {
     const shelter = await Shelter.findOneAndUpdate(

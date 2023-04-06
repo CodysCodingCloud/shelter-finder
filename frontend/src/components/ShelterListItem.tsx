@@ -39,13 +39,13 @@ export default function ShelterListItem({ shelterInfo }: any) {
               {shelterInfo.postal}
             </p>
             <p className="">contact: {shelterInfo.phone}</p>
+            <Link
+              to={`/singleview/${shelterInfo._id}`}
+              className="btn btn-primary"
+            >
+              more info
+            </Link>
           </div>
-          <Link
-            to={`/singleview/${shelterInfo._id}`}
-            className="btn btn-primary"
-          >
-            more info
-          </Link>
         </div>
       </div>
     </div>

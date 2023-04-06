@@ -10,7 +10,6 @@ export default function ShelterView() {
   const params: any = useParams();
   const shelter = useAppSelector((state) => state.shelter.currentShelter);
   React.useEffect(() => {
-    console.log('123123', params);
     dispatch(getShelter(params.id));
   }, [params, dispatch]);
 

@@ -10,7 +10,8 @@ import ErrorPage from './routes/ErrorPage';
 import Register from './routes/Register';
 import Login from './routes/Login';
 import Welcome from './routes/Welcome';
-import ShelterForm from './components/ShelterForm';
+import RegisterShelter from './routes/RegisterShelter';
+// import ShelterForm from './components/ShelterForm';
 import ShelterView from './components/ShelterView';
 import Shelters from './routes/Shelters';
 import MyShelters from './routes/user/MyShelters';
@@ -46,7 +47,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'newshelter',
-        element: <ShelterForm />,
+        element: <RegisterShelter />,
       },
       {
         path: 'singleview/:id',

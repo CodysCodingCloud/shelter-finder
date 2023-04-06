@@ -2,25 +2,26 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { AppDispatch } from '../index';
 import axios from 'axios';
-
+import { AppThunk } from '../../types/AppThunk';
+import { ShelterInfo } from '../../types/ShelterInfo';
 // Define a type for the slice state
-export interface ShelterInfo {
-  _id?: string;
-  name: string;
-  organization: string;
-  addressLine1: string;
-  addressLine2?: string;
-  city: string;
-  stateAbbreviation: string;
-  postal: string;
-  phone: string;
-  openSpace?: string;
-  capacity?: string;
-  description: string;
-  requirements: string;
-  avatar?: string | File;
-  user?: string;
-}
+// export interface ShelterInfo {
+//   _id?: string;
+//   name: string;
+//   organization: string;
+//   addressLine1: string;
+//   addressLine2?: string;
+//   city: string;
+//   stateAbbreviation: string;
+//   postal: string;
+//   phone: string;
+//   openSpace?: string;
+//   capacity?: string;
+//   description: string;
+//   requirements: string;
+//   avatar?: string | File;
+//   user?: string;
+// }
 interface ShelterState {
   currentShelter: ShelterInfo;
   myShelterList: ShelterInfo[];
@@ -89,8 +90,9 @@ export const {
 } = shelterSlice.actions;
 // export const selectCount = (state: RootState) => state.shelter.value;
 
-export const createShelter = (shelter: ShelterInfo) => {
-  return async (dispatch: AppDispatch) => {
+export const createShelter =
+  (shelter: ShelterInfo): AppThunk =>
+  async (dispatch) => {
     const formData = new FormData();
     let key: keyof typeof shelter;
     for (key in shelter) {
@@ -107,7 +109,6 @@ export const createShelter = (shelter: ShelterInfo) => {
       // throw error
     }
   };
-};
 export const getShelter = (_id: string) => {
   return async (dispatch: AppDispatch) => {
     try {
@@ -121,20 +122,23 @@ export const getShelter = (_id: string) => {
     }
   };
 };
-export const updateShelter = (shelter: ShelterState) => {
-  return async (dispatch: AppDispatch) => {
+export const updateShelter =
+  (shelter: ShelterInfo): AppThunk =>
+  async (dispatch) => {
     try {
-      const { data: shelterData } = await axios.put('/api/shelter/update', {
-        ...shelter,
-      });
+      const { data: shelterData } = await axios.put(
+        `/api/shelter/${shelter._id}`,
+        {
+          ...shelter,
+        }
+      );
       dispatch(replaceShelterInfo(shelterData));
     } catch (error: any) {
       console.log(error.response.data);
       // throw error
     }
   };
-};
-export const removeShelter = (shelter: ShelterState) => {
+export const removeShelter = (shelter: ShelterInfo) => {
   return async (dispatch: AppDispatch) => {
     try {
       const { data: shelterData } = await axios.delete('/api/shelter/delete');

@@ -1,30 +1,24 @@
 import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 // import { useNavigate } from 'react-router-dom';
-import { IShelter } from '../../../serversrc/db/Shelter';
+// import { IShelter } from '../../../serversrc/db/Shelter';
 import FormItem from './FormItem';
-import { createShelter, updateShelter } from '../store/reducers/shelterSlice';
+// import { createShelter, updateShelter } from '../store/reducers/shelterSlice';
 import AvatarFormItem from './AvatarFormItem';
-
-export default function ShelterForm() {
+import { ShelterInfo } from '../types/ShelterInfo';
+import { AppThunk } from '../types/AppThunk';
+export default function ShelterForm({
+  initState,
+  dispatchAction,
+}: {
+  initState: ShelterInfo;
+  dispatchAction: (shelter: ShelterInfo) => AppThunk;
+}) {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   // const navigate = useNavigate();
 
-  const [form, setForm] = useState({
-    name: '',
-    organization: '',
-    addressLine1: '',
-    addressLine2: '',
-    city: '',
-    stateAbbreviation: '',
-    postal: '',
-    phone: '',
-    openSpace: '',
-    capacity: '',
-    description: '',
-    requirements: '',
-  });
+  const [form, setForm] = useState(initState);
   const [formError, setFormError] = useState({});
   const [disableForm, setDisableForm] = useState(true);
 
@@ -74,9 +68,8 @@ export default function ShelterForm() {
       setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
-    dispatch(createShelter({ ...form, user: user._id as string }));
+    dispatch(dispatchAction({ ...form, user: user._id as string }));
     console.log('userinfo', user._id);
-
     // console.log(user['_id']);
   };
 
@@ -116,8 +109,8 @@ export default function ShelterForm() {
             text="Address line 2"
             formChange="addressLine2"
             handleChange={handleChange}
-            value={form.addressLine2}
-          />{' '}
+            value={form.addressLine2 as string}
+          />
           <FormItem
             id="city"
             text="city"
@@ -159,14 +152,14 @@ export default function ShelterForm() {
             type="number"
             text="what is the maximum capacity in this shelter?"
             handleChange={handleChange}
-            value={form.capacity}
+            value={form.capacity as string}
           />
           <FormItem
             id="openSpace"
             type="number"
             text="how much space is left in this shelter?"
             handleChange={handleChange}
-            value={form.openSpace}
+            value={form.openSpace as string}
           />
           <FormItem
             id="description"
