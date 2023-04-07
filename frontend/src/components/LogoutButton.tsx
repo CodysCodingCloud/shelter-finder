@@ -14,7 +14,11 @@ export default function LogoutButton({ className }: { className?: string }) {
     navigate(0);
   };
   return (
-    <button className={className ? className : 'logout'} onClick={handleSubmit}>
+    <button
+      type="button"
+      className={`logout ${className}`}
+      onClick={handleSubmit}
+    >
       Logout
     </button>
   );

@@ -1,5 +1,5 @@
-import mongoose, { Schema, model, connect, Types } from 'mongoose';
-export interface IShelter {
+import mongoose, { Document, Schema, model, connect, Types } from 'mongoose';
+export interface IShelter extends Document {
   user: Types.ObjectId;
   name: string;
   organization: string;
@@ -12,7 +12,7 @@ export interface IShelter {
   openSpace?: number;
   capacity?: number;
   description?: string;
-  avatar?: { data: Buffer; contentType: String };
+  avatar?: string;
   requirements?: string;
 }
 const shelterSchema = new Schema<IShelter>(
@@ -73,7 +73,28 @@ const shelterSchema = new Schema<IShelter>(
       required: false,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
-
+shelterSchema.index(
+  {
+    name: 'text',
+    requirements: 'text',
+    description: 'text',
+    postal: 'text',
+    city: 'text',
+    stateAbbreviation: 'text',
+  },
+  {
+    weights: {
+      name: 5,
+      requirements: 2,
+      description: 2,
+      postal: 3,
+      city: 2,
+      stateAbbreviation: 1,
+    },
+  }
+);
 module.exports = model<IShelter>('Shelter', shelterSchema);

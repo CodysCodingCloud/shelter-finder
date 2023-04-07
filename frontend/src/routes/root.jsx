@@ -11,10 +11,8 @@ export default function Root() {
   }, [dispatch]);
   return (
     <>
-      <div>
-        <Welcome></Welcome>
-        <NavBar></NavBar>
-      </div>
+      <NavBar></NavBar>
+
       <div id="detail">
         <Outlet />
       </div>

@@ -2,13 +2,13 @@ import React, { MouseEvent, useRef } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import LogoutButton from './LogoutButton';
-
+import SearchBar from './SearchBar';
 export default function NavBar() {
   const id = useAppSelector((state) => state.user._id);
   const navRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   function collapser(event: MouseEvent<HTMLDivElement>) {
-    console.log(event.target);
+    // console.log(event.target);
     if (navRef.current) {
       navRef.current.classList.remove('show');
     }
@@ -43,7 +43,8 @@ export default function NavBar() {
           id="navbarNavAltMarkup"
           onClick={collapser}
         >
-          <div className="navbar-nav">
+          <SearchBar />
+          <div className="navbar-nav ">
             <NavLink className="nav-link" to="/">
               Home
             </NavLink>
