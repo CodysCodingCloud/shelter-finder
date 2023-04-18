@@ -8,8 +8,6 @@ export default function NavBar() {
   const navRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   function collapser(event: MouseEvent) {
-    // console.log(event.currentTarget.classList);
-    console.log((event.target as HTMLElement).classList.contains('sbf'));
     if (!(event.target as HTMLElement).classList.contains('sbf')) {
       if (navRef.current) {
         navRef.current.classList.remove('show');
