@@ -15,6 +15,7 @@ import RegisterShelter from './routes/RegisterShelter';
 import ShelterView from './components/ShelterView';
 import Shelters from './routes/Shelters';
 import MyShelters from './routes/user/MyShelters';
+import ShelterSearch from './routes/ShelterSearch';
 // import NavBar from './components/NavBar';
 
 const router = createBrowserRouter([
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
       {
         path: 'singleview/:id',
         element: <ShelterView />,
+      },
+      {
+        path: 'search',
+        element: <ShelterSearch />,
       },
     ],
   },

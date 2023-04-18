@@ -133,7 +133,13 @@ router.put('/changeowner/:id', requireToken, async (req: any, res, next) => {
     next(err);
   }
 });
-
+router.put('/search', async (req: any, res, next) => {
+  console.log(req.body);
+  const searchQuery = String(req.body.queryStr);
+  const querry = await Shelter.find({ $text: { $search: searchQuery } }).exec();
+  console.log(querry);
+  res.status(200).json(querry);
+});
 router.get('/:id', async (req, res, next) => {
   try {
     const shelter = await Shelter.findOne({

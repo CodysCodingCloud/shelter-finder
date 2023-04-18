@@ -34,9 +34,7 @@ export default function ShelterView() {
           <div className="col-12">
             <h2 className="">{shelter.organization}</h2>
             <p className="">{shelter.addressLine1}</p>
-            <p>
-              {shelter.addressLine1} {'\n\ngodly\n\n'} {shelter.addressLine1}
-            </p>
+            <p>{shelter.addressLine1}</p>
             {shelter.addressLine2 && <p className="">{shelter.addressLine2}</p>}
             <p className="">
               {shelter.city}, {shelter.stateAbbreviation}, {shelter.postal}

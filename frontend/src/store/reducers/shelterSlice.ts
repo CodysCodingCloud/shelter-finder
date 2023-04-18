@@ -26,6 +26,8 @@ interface ShelterState {
   currentShelter: ShelterInfo;
   myShelterList: ShelterInfo[];
   allShelters: ShelterInfo[];
+  queryStr?: string;
+  loading: boolean;
 }
 // Define the initial state using that type
 const initialState: ShelterState = {
@@ -45,6 +47,7 @@ const initialState: ShelterState = {
   },
   myShelterList: [],
   allShelters: [],
+  loading: false,
 };
 const shelterSlice = createSlice({
   name: 'shelter',
@@ -75,6 +78,14 @@ const shelterSlice = createSlice({
       state = initialState;
       return state;
     },
+    search: (state: ShelterState, action: PayloadAction<string>) => {
+      state.queryStr = action.payload;
+      return state;
+    },
+    loading: (state: ShelterState, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+      return state;
+    },
     // update: (state, action: PayloadAction<ShelterState>) => {
     //   state = action.payload;
     //   return state;
@@ -87,6 +98,8 @@ export const {
   getUserShelterList,
   getAllShelterList,
   logout,
+  search,
+  loading,
 } = shelterSlice.actions;
 // export const selectCount = (state: RootState) => state.shelter.value;
 
@@ -145,13 +158,13 @@ export const removeShelter = (shelter: ShelterInfo) => {
       dispatch(replaceShelterInfo(shelterData));
     } catch (error: any) {
       console.log(error.response.data);
-      // throw error
     }
   };
 };
 export const fetchUserShelterList = () => {
   return async (dispatch: AppDispatch) => {
     try {
+      dispatch(loading(true));
       const token = window.localStorage.getItem('token');
       const { data: shelterListData } = await axios.get(
         '/api/shelter/user-shelter-list',
@@ -162,6 +175,7 @@ export const fetchUserShelterList = () => {
         }
       );
       dispatch(getUserShelterList(shelterListData));
+      dispatch(loading(false));
     } catch (error: any) {
       console.log(error.response.data);
       // throw error
@@ -172,10 +186,27 @@ export const fetchUserShelterList = () => {
 export const fetchAllShelterList = () => {
   return async (dispatch: AppDispatch) => {
     try {
+      dispatch(loading(true));
       const { data: shelterListData } = await axios.get(
         '/api/shelter/all-shelter-list'
       );
       dispatch(getAllShelterList(shelterListData));
+      dispatch(loading(false));
+    } catch (error: any) {
+      console.log(error.response.data);
+      // throw error
+    }
+  };
+};
+export const fetchSearch = (queryStr: string) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(loading(true));
+      const { data: shelterListData } = await axios.put('/api/shelter/search', {
+        queryStr: queryStr,
+      });
+      dispatch(getAllShelterList(shelterListData));
+      dispatch(loading(false));
     } catch (error: any) {
       console.log(error.response.data);
       // throw error
