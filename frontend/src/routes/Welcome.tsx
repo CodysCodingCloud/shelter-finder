@@ -11,7 +11,7 @@ export default function Welcome() {
         <h1>Welcome to the Shelter finding tool</h1>
       )}
       <section>
-        <h2>About this too;l</h2>
+        <h2>About this tool</h2>
         <p>
           This Shelter finding tool provides information about shelters within
           the USA. Information regarding shelters are provided by users and
