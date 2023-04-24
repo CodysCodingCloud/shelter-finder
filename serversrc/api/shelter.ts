@@ -150,7 +150,33 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-
+router.get('/comment/:id', async (req, res, next) => {
+  try {
+    const shelter = await Shelter.findOne({
+      _id: req.params.id,
+    }).select({
+      name: 1,
+      organization: 1,
+      addressLine1: 1,
+      addressLine2: 1,
+      city: 1,
+      stateAbbreviation: 1,
+      postal: 1,
+      user: 1,
+      avatar: 1,
+      comment: {
+        user: {
+          name: 1,
+        },
+        comment: 1,
+        rating: 1,
+      },
+    });
+    res.status(200).json(shelter);
+  } catch (err) {
+    next(err);
+  }
+});
 router.put('/:id', requireToken, async (req: any, res, next) => {
   try {
     const shelter = await Shelter.findOneAndUpdate(
