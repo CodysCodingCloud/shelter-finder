@@ -86,6 +86,13 @@ const shelterSlice = createSlice({
       state.loading = action.payload;
       return state;
     },
+    getAllPaginatedShelterList: (
+      state: ShelterState,
+      action: PayloadAction<ShelterInfo[]>
+    ) => {
+      state.allShelters.concat(action.payload);
+      return state;
+    },
     // update: (state, action: PayloadAction<ShelterState>) => {
     //   state = action.payload;
     //   return state;
@@ -100,6 +107,7 @@ export const {
   logout,
   search,
   loading,
+  getAllPaginatedShelterList,
 } = shelterSlice.actions;
 // export const selectCount = (state: RootState) => state.shelter.value;
 
@@ -191,6 +199,21 @@ export const fetchAllShelterList = () => {
         '/api/shelter/all-shelter-list'
       );
       dispatch(getAllShelterList(shelterListData));
+      dispatch(loading(false));
+    } catch (error: any) {
+      console.log(error.response.data);
+      // throw error
+    }
+  };
+};
+export const fetchAllPaginatedShelterList = (page: number) => {
+  return async (dispatch: AppDispatch) => {
+    try {
+      dispatch(loading(true));
+      const { data: shelterListData } = await axios.get(
+        `/api/shelter/all-shelter-list-paginated/` + page
+      );
+      dispatch(getAllPaginatedShelterList(shelterListData));
       dispatch(loading(false));
     } catch (error: any) {
       console.log(error.response.data);

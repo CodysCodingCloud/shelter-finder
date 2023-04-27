@@ -92,7 +92,28 @@ router.get('/all-shelter-list', async (req, res, next) => {
     next(err);
   }
 });
-
+router.get('/all-shelter-list-paginated/:skip', async (req, res, next) => {
+  try {
+    let skip = Number(req.params.skip);
+    const shelterList = await Shelter.find({})
+      .select({
+        name: 1,
+        organization: 1,
+        addressLine1: 1,
+        addressLine2: 1,
+        city: 1,
+        stateAbbreviation: 1,
+        postal: 1,
+        user: 1,
+        avatar: 1,
+      })
+      .limit(5)
+      .skip(skip);
+    res.status(200).json(shelterList);
+  } catch (err) {
+    next(err);
+  }
+});
 router.put('/shelter-list', requireToken, async (req: any, res, next) => {
   try {
     const shelterList = await Shelter.find({
@@ -150,28 +171,30 @@ router.get('/:id', async (req, res, next) => {
     next(err);
   }
 });
-router.get('/comment/:id', async (req, res, next) => {
+router.get('/commented/:id', async (req, res, next) => {
   try {
     const shelter = await Shelter.findOne({
       _id: req.params.id,
-    }).select({
-      name: 1,
-      organization: 1,
-      addressLine1: 1,
-      addressLine2: 1,
-      city: 1,
-      stateAbbreviation: 1,
-      postal: 1,
-      user: 1,
-      avatar: 1,
-      comment: {
-        user: {
-          name: 1,
+    })
+      .populate({
+        path: 'comment',
+        select: 'comment rating',
+        populate: {
+          path: 'user',
+          select: 'name',
         },
-        comment: 1,
-        rating: 1,
-      },
-    });
+      })
+      .select({
+        name: 1,
+        organization: 1,
+        addressLine1: 1,
+        addressLine2: 1,
+        city: 1,
+        stateAbbreviation: 1,
+        postal: 1,
+        user: 1,
+        avatar: 1,
+      });
     res.status(200).json(shelter);
   } catch (err) {
     next(err);
