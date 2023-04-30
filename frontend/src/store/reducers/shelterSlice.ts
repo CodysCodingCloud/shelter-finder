@@ -29,7 +29,6 @@ interface ShelterState {
   queryStr?: string;
   loading: boolean;
 }
-// Define the initial state using that type
 const initialState: ShelterState = {
   currentShelter: {
     name: '',
@@ -90,7 +89,8 @@ const shelterSlice = createSlice({
       state: ShelterState,
       action: PayloadAction<ShelterInfo[]>
     ) => {
-      state.allShelters.concat(action.payload);
+      console.log(action.payload);
+      state.allShelters = state.allShelters.concat(action.payload);
       return state;
     },
     // update: (state, action: PayloadAction<ShelterState>) => {
