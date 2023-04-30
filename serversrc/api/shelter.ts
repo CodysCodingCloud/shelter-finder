@@ -106,9 +106,11 @@ router.get('/all-shelter-list-paginated/:skip', async (req, res, next) => {
         postal: 1,
         user: 1,
         avatar: 1,
+        createdAt: 1,
       })
+      .sort({ createdAt: 'asc' })
       .limit(5)
-      .skip(skip);
+      .skip(skip * 5);
     res.status(200).json(shelterList);
   } catch (err) {
     next(err);

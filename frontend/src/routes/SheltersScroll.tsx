@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
@@ -10,38 +10,55 @@ import { fetchAllPaginatedShelterList } from '../store/reducers/shelterSlice';
 export default function ShelterScroll() {
   const [page, setPage] = React.useState(0);
   const [allShelters, setAllShelters] = React.useState([]);
-  const dispatch = useAppDispatch();
-  // const params: any = useParams();
+  const [loading, setLoading] = React.useState(true);
+  const [hitmax, sethitmax] = React.useState(false);
+  // const dispatch = useAppDispatch();
   // const allShelters = useAppSelector((state) => state.shelter.allShelters);
-  React.useEffect(() => {
-    // dispatch(fetchAllPaginatedShelterList(page));
-    (async function () {
-      try {
-        const { data: shelterListData } = await axios.get(
-          `/api/shelter/all-shelter-list-paginated/` + page
-        );
-        setAllShelters(allShelters.concat(shelterListData));
-      } catch (error) {}
-    })();
-  }, [page]);
-  const listInnerRef = useRef(null);
-  const onScroll = function () {
+  const onScroll = useCallback(function () {
+    // if (loading) return;
+    const scrollTop = document.documentElement.scrollTop;
+    // const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
     if (listInnerRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = listInnerRef.current;
-      console.log(scrollTop, scrollHeight, clientHeight);
-      if (scrollTop + clientHeight === scrollHeight) {
-        setPage(page + 1);
-        dispatch(fetchAllPaginatedShelterList(page));
+      const { offsetTop } = listInnerRef.current;
+      if (scrollTop + clientHeight >= offsetTop) {
+        console.log('scrolled really far');
+        setPage((page) => page + 1);
       }
     }
-  };
+  }, []);
+  const fetch = useCallback(
+    async function (page: number) {
+      try {
+        setLoading(true);
+        const { data: shelterListData }: { data: [] } = await axios.get(
+          `/api/shelter/all-shelter-list-paginated/` + page
+        );
+        if (shelterListData.length) {
+          setAllShelters((prev) => [...prev, ...shelterListData]);
+          console.log(shelterListData);
+          if (shelterListData.length < 5) {
+            window.removeEventListener('scroll', onScroll);
+          }
+        }
+        setLoading(false);
+      } catch (error) {}
+    },
+    [onScroll]
+  );
+  React.useEffect(() => {
+    window.addEventListener('scroll', onScroll);
+    fetch(page);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [fetch, page, onScroll]);
+
+  const listInnerRef = useRef(null);
+
   return (
     <div className="shelters">
       <h1>Shelter List</h1>
       <ShelterList shelterList={allShelters} />
-      {allShelters.length >= 5 && (
-        <div onScroll={onScroll} ref={listInnerRef} id="refhere"></div>
-      )}
+      {!loading && <div ref={listInnerRef} id="refhere"></div>}
     </div>
   );
 }
