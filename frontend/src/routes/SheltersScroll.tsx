@@ -11,18 +11,13 @@ export default function ShelterScroll() {
   const [page, setPage] = React.useState(0);
   const [allShelters, setAllShelters] = React.useState([]);
   const [loading, setLoading] = React.useState(true);
-  const [hitmax, sethitmax] = React.useState(false);
-  // const dispatch = useAppDispatch();
-  // const allShelters = useAppSelector((state) => state.shelter.allShelters);
   const onScroll = useCallback(function () {
-    // if (loading) return;
     const scrollTop = document.documentElement.scrollTop;
     // const scrollHeight = document.documentElement.scrollHeight;
     const clientHeight = document.documentElement.clientHeight;
     if (listInnerRef.current) {
       const { offsetTop } = listInnerRef.current;
       if (scrollTop + clientHeight >= offsetTop) {
-        console.log('scrolled really far');
         setPage((page) => page + 1);
       }
     }

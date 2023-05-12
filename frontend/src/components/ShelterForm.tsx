@@ -1,22 +1,27 @@
 import React, { useState, useCallback, ChangeEvent, FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { IShelter } from '../../../serversrc/db/Shelter';
 import FormItem from './FormItem';
 // import { createShelter, updateShelter } from '../store/reducers/shelterSlice';
 import AvatarFormItem from './AvatarFormItem';
 import { ShelterInfo } from '../types/ShelterInfo';
 import { AppThunk } from '../types/AppThunk';
+import type { NavigateFunction } from 'react-router-dom';
+
 export default function ShelterForm({
   initState,
   dispatchAction,
 }: {
   initState: ShelterInfo;
-  dispatchAction: (shelter: ShelterInfo) => AppThunk;
+  dispatchAction: (
+    shelter: ShelterInfo,
+    navigate: NavigateFunction
+  ) => AppThunk;
 }) {
   const user = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
-  // const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
 
   const [form, setForm] = useState(initState);
   const [formError, setFormError] = useState({});
@@ -68,7 +73,7 @@ export default function ShelterForm({
       setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
-    dispatch(dispatchAction({ ...form, user: user._id as string }));
+    dispatch(dispatchAction({ ...form, user: user._id as string }, navigate));
     console.log('userinfo', user._id);
     // console.log(user['_id']);
   };

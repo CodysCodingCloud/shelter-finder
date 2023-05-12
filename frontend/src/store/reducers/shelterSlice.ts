@@ -4,24 +4,8 @@ import type { AppDispatch } from '../index';
 import axios from 'axios';
 import { AppThunk } from '../../types/AppThunk';
 import { ShelterInfo } from '../../types/ShelterInfo';
-// Define a type for the slice state
-// export interface ShelterInfo {
-//   _id?: string;
-//   name: string;
-//   organization: string;
-//   addressLine1: string;
-//   addressLine2?: string;
-//   city: string;
-//   stateAbbreviation: string;
-//   postal: string;
-//   phone: string;
-//   openSpace?: string;
-//   capacity?: string;
-//   description: string;
-//   requirements: string;
-//   avatar?: string | File;
-//   user?: string;
-// }
+import type { NavigateFunction } from 'react-router-dom';
+
 interface ShelterState {
   currentShelter: ShelterInfo;
   myShelterList: ShelterInfo[];
@@ -112,7 +96,7 @@ export const {
 // export const selectCount = (state: RootState) => state.shelter.value;
 
 export const createShelter =
-  (shelter: ShelterInfo): AppThunk =>
+  (shelter: ShelterInfo, navigate: NavigateFunction): AppThunk =>
   async (dispatch) => {
     const formData = new FormData();
     let key: keyof typeof shelter;
@@ -125,6 +109,7 @@ export const createShelter =
         formData
       );
       dispatch(replaceShelterInfo(shelterData));
+      navigate('/singleview/' + shelterData._id);
     } catch (error: any) {
       console.error(error.response.data);
       // throw error
@@ -144,7 +129,7 @@ export const getShelter = (_id: string) => {
   };
 };
 export const updateShelter =
-  (shelter: ShelterInfo): AppThunk =>
+  (shelter: ShelterInfo, navigate: NavigateFunction): AppThunk =>
   async (dispatch) => {
     try {
       const { data: shelterData } = await axios.put(
@@ -154,6 +139,7 @@ export const updateShelter =
         }
       );
       dispatch(replaceShelterInfo(shelterData));
+      navigate('/singleview/' + shelterData._id);
     } catch (error: any) {
       console.log(error.response.data);
       // throw error

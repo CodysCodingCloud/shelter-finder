@@ -12,7 +12,8 @@ import Login from './routes/Login';
 import Welcome from './routes/Welcome';
 import RegisterShelter from './routes/RegisterShelter';
 // import ShelterForm from './components/ShelterForm';
-import ShelterView from './components/ShelterView';
+import ShelterView from './routes/ShelterView';
+import EditShelter from './routes/EditShelter';
 import Shelters from './routes/Shelters';
 import MyShelters from './routes/user/MyShelters';
 import ShelterSearch from './routes/ShelterSearch';
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: 'singleview/:id',
         element: <ShelterView />,
+      },
+      {
+        path: 'edit/:id',
+        element: <EditShelter />,
       },
       {
         path: 'search',

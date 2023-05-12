@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { getShelter } from '../store/reducers/shelterSlice';
+import { Link } from 'react-router-dom';
 // import { useNavigate } from 'react-router-dom';
 // import { IShelter } from '../../../serversrc/db/Shelter';
 
@@ -9,6 +10,7 @@ export default function ShelterView() {
   const dispatch = useAppDispatch();
   const params: any = useParams();
   const shelter = useAppSelector((state) => state.shelter.currentShelter);
+  const uuid = useAppSelector((state) => state.user._id);
   React.useEffect(() => {
     dispatch(getShelter(params.id));
   }, [params, dispatch]);
@@ -48,6 +50,11 @@ export default function ShelterView() {
             <p className="">{shelter.requirements}</p>
             <p className="">Capacity: {shelter.capacity || 'N/A'}</p>
             <p className="">Open Space: {shelter.openSpace || 'N/A'}</p>
+            {uuid === shelter.user && (
+              <Link to={'/edit/' + shelter._id} className="btn btn-primary">
+                edit
+              </Link>
+            )}
           </div>
         </div>
       ) : (
