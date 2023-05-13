@@ -40,10 +40,10 @@ const router = createBrowserRouter([
         path: 'register',
         element: <Register />,
       },
-      {
-        path: 'shelters',
-        element: <Shelters />,
-      },
+      // {
+      //   path: 'shelters',
+      //   element: <Shelters />,
+      // },
       {
         path: 'my-shelters',
         element: <MyShelters />,
@@ -65,7 +65,7 @@ const router = createBrowserRouter([
         element: <ShelterSearch />,
       },
       {
-        path: 'scroller/',
+        path: 'shelters/',
         element: <ShelterScroll />,
       },
     ],

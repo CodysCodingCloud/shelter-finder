@@ -10,12 +10,15 @@ export default function ShelterView() {
   const dispatch = useAppDispatch();
   const params: any = useParams();
   const shelter = useAppSelector((state) => state.shelter.currentShelter);
-  const uuid = useAppSelector((state) => state.user._id);
+  const ownerId = useAppSelector((state) => state.user._id);
   React.useEffect(() => {
     dispatch(getShelter(params.id));
   }, [params, dispatch]);
-
-  console.log('shelter', shelter);
+  let updated: number = Date.parse(shelter.updatedAt as string);
+  const oneWeekAgo: Date = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  let oneWeekAgoMilli: number = Number(oneWeekAgo);
+  // console.log('shelter', shelter);
   // const navigate = useNavigate();
   // type shelterParams = { id: string };
 
@@ -35,22 +38,31 @@ export default function ShelterView() {
           ></img>
           <div className="col-12">
             <h2 className="">{shelter.organization}</h2>
-            <p className="">{shelter.addressLine1}</p>
             <p>{shelter.addressLine1}</p>
             {shelter.addressLine2 && <p className="">{shelter.addressLine2}</p>}
             <p className="">
               {shelter.city}, {shelter.stateAbbreviation}, {shelter.postal}
             </p>
-            <p className="">contact: {shelter.phone}</p>
+            <p className="">phone: {shelter.phone}</p>
+            <p className="">website: {shelter.website || 'N/A'}</p>
           </div>
           <div>
             <h3>Description</h3>
-            <p className="">{shelter.description}</p>
+            <p className="">{shelter.description || 'N/A'}</p>
             <h3>Requirements</h3>
-            <p className="">{shelter.requirements}</p>
+            <p className="">{shelter.requirements || 'N/A'} </p>
             <p className="">Capacity: {shelter.capacity || 'N/A'}</p>
             <p className="">Open Space: {shelter.openSpace || 'N/A'}</p>
-            {uuid === shelter.user && (
+            {updated < oneWeekAgoMilli && (
+              <p>
+                The previous contributer last updated this shelter over a week
+                ago. Would you like to contribute and update any missing or
+                incorrect information?
+              </p>
+            )}
+            {(ownerId === shelter.user ||
+              ownerId === '63e6d04dab9210bbfdafea62' ||
+              updated < oneWeekAgoMilli) && (
               <Link to={'/edit/' + shelter._id} className="btn btn-primary">
                 edit
               </Link>

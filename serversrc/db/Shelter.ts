@@ -8,7 +8,8 @@ export interface IShelter extends Document {
   city: string;
   stateAbbreviation: string;
   postal: string;
-  phone: string;
+  phone?: string;
+  website?: string;
   openSpace?: number;
   capacity?: number;
   description?: string;
@@ -24,15 +25,15 @@ const shelterSchema = new Schema<IShelter>(
     },
     name: {
       type: String,
-      required: [true, 'Please add a user'],
+      required: [true, 'Please add a name'],
     },
     organization: {
       type: String,
-      required: [true, 'Please add a user'],
+      required: [true, 'Please add a organization'],
     },
     addressLine1: {
       type: String,
-      required: [true, 'Please add an addressLine1'],
+      required: [true, 'Please add an addressLine'],
     },
     addressLine2: {
       type: String,
@@ -50,13 +51,21 @@ const shelterSchema = new Schema<IShelter>(
       type: String,
       required: [true, 'Please add a postalnumber'],
     },
+    phone: {
+      type: String,
+      required: [false],
+    },
+    website: {
+      type: String,
+      required: [false],
+    },
     openSpace: {
       type: Number,
-      required: [false, 'Please indicate open space'],
+      required: [false],
     },
     capacity: {
       type: Number,
-      required: [false, 'Please indicate capacity'],
+      required: [false],
     },
     description: {
       type: String,
@@ -68,8 +77,6 @@ const shelterSchema = new Schema<IShelter>(
     },
     avatar: {
       type: String,
-      // data: Buffer,
-      // contentType: String,
       required: false,
     },
   },

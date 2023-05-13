@@ -29,7 +29,7 @@ router.put(
         !shelter.addressLine1 ||
         !shelter.stateAbbreviation ||
         !shelter.postal ||
-        !shelter.capacity
+        !shelter.city
       ) {
         res.status(400);
         throw new Error('please complete the form');
@@ -52,11 +52,9 @@ router.put(
           throw new Error('Shelter already exists');
         }
         if (req.file) {
-          console.log(req.file);
           shelter.avatar = '/' + req.file.filename;
         }
         const newShelter = await Shelter.create(shelter);
-        console.log(newShelter._id);
         res.status(200).send(newShelter);
       }
     } catch (err) {
@@ -84,7 +82,7 @@ router.get('/all-shelter-list', async (req, res, next) => {
       city: 1,
       stateAbbreviation: 1,
       postal: 1,
-      user: 1,
+      phone: 1,
       avatar: 1,
     });
     res.status(200).json(shelterList);
@@ -104,7 +102,7 @@ router.get('/all-shelter-list-paginated/:skip', async (req, res, next) => {
         city: 1,
         stateAbbreviation: 1,
         postal: 1,
-        user: 1,
+        phone: 1,
         avatar: 1,
         createdAt: 1,
       })
@@ -157,10 +155,8 @@ router.put('/changeowner/:id', requireToken, async (req: any, res, next) => {
   }
 });
 router.put('/search', async (req: any, res, next) => {
-  console.log(req.body);
   const searchQuery = String(req.body.queryStr);
   const querry = await Shelter.find({ $text: { $search: searchQuery } }).exec();
-  console.log(querry);
   res.status(200).json(querry);
 });
 router.get('/:id', async (req, res, next) => {
@@ -204,14 +200,19 @@ router.get('/commented/:id', async (req, res, next) => {
 });
 router.put('/:id', requireToken, async (req: any, res, next) => {
   try {
-    const shelter = await Shelter.findOneAndUpdate(
-      {
-        _id: req.params.id,
-        user: req.user._id,
-      },
-      req.body,
-      { new: true }
-    );
+    const oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    const query = {
+      _id: req.params.id,
+      $or: [
+        { user: req.user._id },
+        { user: '63e6d04dab9210bbfdafea62' },
+        { updatedAt: { $lte: oneWeekAgo } },
+      ],
+    };
+    const shelter = await Shelter.findOneAndUpdate(query, req.body, {
+      new: true,
+    });
     res.status(200).json(shelter);
   } catch (err) {
     next(err);

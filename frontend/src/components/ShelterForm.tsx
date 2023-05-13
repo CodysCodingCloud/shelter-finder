@@ -33,8 +33,8 @@ export default function ShelterForm({
       !form.addressLine1 ||
       !form.organization ||
       !form.stateAbbreviation ||
-      !form.postal ||
-      !form.capacity
+      !form.city ||
+      !form.postal
     ) {
       setDisableForm(true);
     } else {
@@ -66,16 +66,13 @@ export default function ShelterForm({
       !form.addressLine1 ||
       !form.city ||
       !form.stateAbbreviation ||
-      !form.postal ||
-      !form.phone ||
-      !form.capacity
+      !form.postal
     ) {
       setFormError({ ...formError, incomplete: 'please complete the form' });
       return;
     }
     dispatch(dispatchAction({ ...form, user: user._id as string }, navigate));
     console.log('userinfo', user._id);
-    // console.log(user['_id']);
   };
 
   return (
@@ -145,12 +142,21 @@ export default function ShelterForm({
           />
           <FormItem
             id="tel-national"
-            text="contact information<"
+            text="Contact Information"
             type="tel"
             placeholder="(###)###-####"
             formChange="phone"
             handleChange={handleChange}
-            value={form.phone}
+            value={form.phone as string}
+          />
+          <FormItem
+            id="website"
+            text="Website"
+            type="url"
+            placeholder="example.com"
+            formChange="website"
+            handleChange={handleChange}
+            value={form.website as string}
           />
           <FormItem
             id="capacity"
@@ -171,14 +177,14 @@ export default function ShelterForm({
             text="Tell me more about this shelter (This will be desplayed as your shelter's description)"
             type="textarea"
             handleChange={handleChange}
-            value={form.description}
+            value={form.description as string}
           />
           <FormItem
             id="requirements"
             text="are there any requirements in order to enter this shelter?"
             type="textarea"
             handleChange={handleChange}
-            value={form.requirements}
+            value={form.requirements as string}
           />
           <button
             className={

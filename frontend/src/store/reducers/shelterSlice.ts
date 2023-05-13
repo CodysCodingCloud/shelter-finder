@@ -23,6 +23,7 @@ const initialState: ShelterState = {
     stateAbbreviation: '',
     postal: '',
     phone: '',
+    website: '',
     openSpace: '',
     capacity: '',
     description: '',

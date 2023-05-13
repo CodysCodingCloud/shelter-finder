@@ -27,10 +27,6 @@ export default function ShelterListItem({ shelterInfo }: any) {
               {shelterInfo.organization}
             </h3>
             <p className="card-text">{shelterInfo.addressLine1}</p>
-            <p className="card-text">
-              {shelterInfo.addressLine1} {'\n\ngodly\n\n'}{' '}
-              {shelterInfo.addressLine1}
-            </p>
             {shelterInfo.addressLine2 && (
               <p className="">{shelterInfo.addressLine2}</p>
             )}
@@ -38,7 +34,7 @@ export default function ShelterListItem({ shelterInfo }: any) {
               {shelterInfo.city}, {shelterInfo.stateAbbreviation},
               {shelterInfo.postal}
             </p>
-            <p className="">contact: {shelterInfo.phone}</p>
+            <p className="">contact: {shelterInfo.phone || 'N/A'}</p>
             <Link
               to={`/singleview/${shelterInfo._id}`}
               className="btn btn-primary"

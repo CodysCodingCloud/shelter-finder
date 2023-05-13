@@ -78,7 +78,7 @@ router.get('/:id', async (req: any, res, next) => {
 });
 router.put('/:id', requireToken, async (req: any, res, next) => {
   try {
-    console.log('equal ids?', req.user._id == req.params.id);
+    // console.log('equal ids?', req.user._id == req.params.id);
     const user = await User.findOneAndUpdate(
       {
         _id: req.user._id,
