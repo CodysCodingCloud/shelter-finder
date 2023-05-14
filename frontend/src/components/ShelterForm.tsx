@@ -45,7 +45,10 @@ export default function ShelterForm({
   const handleChange = useCallback(
     (props: string) =>
       (
-        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+        event:
+          | ChangeEvent<HTMLInputElement>
+          | ChangeEvent<HTMLSelectElement>
+          | any
       ): void => {
         setForm((prev) => {
           return {
@@ -57,7 +60,6 @@ export default function ShelterForm({
       },
     [checkDisabled]
   );
-
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (

@@ -7,6 +7,7 @@ export interface IShelter extends Document {
   addressLine2?: string;
   city: string;
   stateAbbreviation: string;
+  state: string;
   postal: string;
   phone?: string;
   website?: string;
@@ -46,6 +47,10 @@ const shelterSchema = new Schema<IShelter>(
     stateAbbreviation: {
       type: String,
       required: [true, 'Please add a State'],
+    },
+    state: {
+      type: String,
+      required: [false, 'Please add a State'],
     },
     postal: {
       type: String,
@@ -100,6 +105,7 @@ shelterSchema.index(
       description: 2,
       postal: 3,
       city: 2,
+      state: 1,
       stateAbbreviation: 1,
     },
   }

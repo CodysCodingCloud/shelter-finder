@@ -15,6 +15,7 @@ export default function EditShelter() {
       dispatch(getShelter(params.id as string));
     }
   }, [dispatch, params, initState._id]);
+  console.log(initState);
   // const initState = {
   //   name: '',
   //   organization: '',

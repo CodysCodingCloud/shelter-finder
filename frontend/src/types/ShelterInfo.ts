@@ -6,6 +6,7 @@ export interface ShelterInfo {
   addressLine2?: string;
   city: string;
   stateAbbreviation: string;
+  state: string;
   postal: string;
   phone?: string;
   website?: string;

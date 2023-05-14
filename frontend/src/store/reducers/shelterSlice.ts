@@ -21,6 +21,7 @@ const initialState: ShelterState = {
     addressLine2: '',
     city: '',
     stateAbbreviation: '',
+    state: '',
     postal: '',
     phone: '',
     website: '',
@@ -99,6 +100,8 @@ export const {
 export const createShelter =
   (shelter: ShelterInfo, navigate: NavigateFunction): AppThunk =>
   async (dispatch) => {
+    let state = require('../../util/usStates.json')[shelter.stateAbbreviation];
+    shelter.state = state;
     const formData = new FormData();
     let key: keyof typeof shelter;
     for (key in shelter) {
@@ -132,6 +135,8 @@ export const getShelter = (_id: string) => {
 export const updateShelter =
   (shelter: ShelterInfo, navigate: NavigateFunction): AppThunk =>
   async (dispatch) => {
+    let state = require('../../util/usStates.json')[shelter.stateAbbreviation];
+    shelter.state = state;
     try {
       const { data: shelterData } = await axios.put(
         `/api/shelter/${shelter._id}`,

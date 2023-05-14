@@ -47,14 +47,14 @@ export default memo(function FormItem({
           onChange={handleChange(formChange ? formChange : id)}
         >
           <option value="" defaultValue="" hidden></option>
-          {slectArr?.map((state) => (
-            <option
-              key={state[selectValue as string]}
-              value={state[selectValue as string]}
-            >
-              {state[selectText as string]}
-            </option>
-          ))}
+          {slectArr &&
+            Object.entries(slectArr).map(([key, value]) => {
+              return (
+                <option key={key} value={key}>
+                  {value}
+                </option>
+              );
+            })}
         </select>
       ) : type === 'textarea' ? (
         <textarea

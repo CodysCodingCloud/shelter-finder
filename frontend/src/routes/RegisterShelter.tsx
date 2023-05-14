@@ -12,6 +12,7 @@ export default function RegisterShelter() {
     addressLine2: '',
     city: '',
     stateAbbreviation: '',
+    state: '',
     postal: '',
     phone: '',
     openSpace: '',
