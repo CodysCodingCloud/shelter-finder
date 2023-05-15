@@ -9,6 +9,7 @@ uploads/*
 
 # testing
 /coverage
+temp.md
 *temp*
 
 # production
