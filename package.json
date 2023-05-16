@@ -17,6 +17,7 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon serversrc/index.ts",
+    "seed": "SEED=true npm run server",
     "build": "tsc-p .",
     "client": "npm start --prefix frontend",
     "clientbuild": "npm run build --prefix frontend",
