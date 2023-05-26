@@ -89,6 +89,7 @@ const shelterSchema = new Schema<IShelter>(
     timestamps: true,
   }
 );
+
 shelterSchema.index(
   {
     name: 'text',
@@ -96,6 +97,7 @@ shelterSchema.index(
     description: 'text',
     postal: 'text',
     city: 'text',
+    state: 'text',
     stateAbbreviation: 'text',
   },
   {
@@ -104,10 +106,13 @@ shelterSchema.index(
       requirements: 2,
       description: 2,
       postal: 3,
-      city: 2,
-      state: 1,
+      city: 5,
+      state: 5,
       stateAbbreviation: 1,
     },
   }
 );
-module.exports = model<IShelter>('Shelter', shelterSchema);
+const Shelter = model<IShelter>('Shelter', shelterSchema);
+
+module.exports = Shelter;
+// Shelter.collection.dropIndexes();

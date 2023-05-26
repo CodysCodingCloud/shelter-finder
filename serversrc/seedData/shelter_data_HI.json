@@ -1,0 +1,62 @@
+[
+  {
+    "addressLine1": "357 Waianuenue Avenue",
+    "city": "Hilo",
+    "state": "Hawaii",
+    "stateAbbreviation": "HI",
+    "postal": "00000",
+    "name": "Keolahou Shelter",
+    "organization": "Keolahou Shelter",
+    "phone": "(808) 935-3050",
+    "website": "https://hopeserviceshawaii.org/",
+    "description": "The old Hilo Memorial Hospital has been transformed into an emergency shelter, Keolahou, that serves single men. Provides up to 25 emergency shelter beds for single men."
+  },
+  {
+    "addressLine1": "546 Ka'aahi Street",
+    "city": "Honolulu",
+    "state": "Hawaii",
+    "stateAbbreviation": "HI",
+    "postal": "96817",
+    "name": "The Institute for Human Services.",
+    "organization": "The Institute for Human Services.",
+    "phone": "(808) 447-2800",
+    "website": "https://ihshawaii.org/",
+    "description": "Emergency shelter for men, women and families.\nProviding individuals and families with short-term stabilization through shelter options that lead to permanent housing\nWe take pride in providing community shelter settings that are hospitable, safe, and welcoming. Clients can expect to be treated with respect and are offered supportive services on site, including housing placement support, access to healthcare, employment support, case management, daily meals, mail service, laundry facilities and storage space.\nSumner Men's Shelter\nAs of February 1, 2017 - the Sumner Emergency Shelter remains a 24/7 facility and able to host 160 single men, at capacity.\nDuring daytime business hours, non-guests of IHS from the community are welcome to enjoy a free meal, use showers, and have access to mail and other support services as needed.\nMail Services\n    Daily    6:00AM - 10:00PM\nFree Hot Meals    Daily    Breakfast: 7:00AM - 7:45AM\nLunch: 12:00PM - 12:45PM\nDinner: 6:00PM - 6:45PM\nShowers & Clothing    Daily    10:45AM - 11:30AM\n"
+  },
+  {
+    "addressLine1": "Pier 1 off Forrest Avenue in the Kaka'ako area",
+    "city": "Honolulu",
+    "state": "Hawaii",
+    "stateAbbreviation": "HI",
+    "postal": "96808",
+    "name": "Next Step Shelter",
+    "organization": "Next Step Shelter",
+    "phone": "(808) 585-8800",
+    "website": "http://waikikihc.org/locations/nextstep/",
+    "description": "The shelter is inside a warehouse in the Honolulu neighborhood of Kakaako. The shelter is accessible through a gated entrance located on Ilalo Street near Forrest Avenue. There is a sign for the shelter on the gate.\n\nShelter hours: Mondays through Saturdays 5:30pm to 8:30am. Saturdays and Sundays open all day.\n\nShelter registration and Intake: Mondays through Thursdays 1pm to 4pm. Closed Fridays. All new and follow up applicants are encouraged to be at the Shelter by 1:00 p.m.\n\nEach member receives a shelter ID card upon admission. It is needed to enter and exit the shelter, so please remember to keep it safe.\nEligibility Criteria: Homeless or at risk of being homeless.\n\n\nRequirements: TB clearance card, Homeless verification letter, documentation verifying income (if applicable), birth certificates (children only).\n\nServices include:\nEmergency shelter for families, couples and individuals\nReferrals for medical care\nBehavioral Health\nTobacco Cessation Treatment\nEligibility assistance\nJob training and placement assistance\nHousing placement assistance\n\nDinner provided each night at 6:30 p.m.\nBreakfast is served on the weekends and select weekdays\nShower facilities located on the Ewa side of the shelter.\n\nLaundry facilities located next to the bathroom trailers. Open from 5:30 p.m. to 3:30 a.m. every day\nComputer lab, open nightly from 7:30 to 8:30 p.m. for children; 8:30 to 10 p.m. for adults.\nHygiene products & clothes available upon request\nMany useful items available at the Shelter Service Center"
+  },
+  {
+    "addressLine1": "69 N. Kainalu Drive",
+    "city": "Kailua",
+    "state": "Hawaii",
+    "stateAbbreviation": "HI",
+    "postal": "96734",
+    "name": "Family Promise of Hawaii",
+    "organization": "Family Promise of Hawaii",
+    "phone": "",
+    "website": "https://twitter.com/fampromise808",
+    "description": ""
+  },
+  {
+    "addressLine1": "670 Waiale Road (or Westside Center at 15 Ipu Aumakua Lane in Lahaina)",
+    "city": "Wailuku",
+    "state": "Hawaii",
+    "stateAbbreviation": "HI",
+    "postal": "96793",
+    "name": "Ka Hale A Ke Ola",
+    "organization": "Ka Hale A Ke Ola",
+    "phone": "(808) 242-7600",
+    "website": "http://www.khako.org/",
+    "description": "Ka Hale A Ke Ola is a comprehensive resource center that provides emergency shelter, transitional housing, adult education and training, counseling, a primary care medical clinic and facilities for child care. KHAKO is dedicated to serving the needs of the homeless and hungry on Maui by providing emergency food and housing, voicing their concerns, and empowering them to take responsibility for their own lives, and to call on the community to assist in these actions."
+  }
+]
