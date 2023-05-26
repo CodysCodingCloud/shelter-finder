@@ -4,7 +4,7 @@ This application was built to help homeless people find shelter in their communi
 
 At this time users will be able to search for shelters based on MongoDB's search features. Results would be displayed and paginated using infinite scrolling.
 
-Future features that I would like to add is mapping and using location data for initial database querries.
+Future features that I would like to add is mapping and using location data for initial database querries. 
 
 ## Available Scripts
 
