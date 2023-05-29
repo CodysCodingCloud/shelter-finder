@@ -1,5 +1,5 @@
 const Shelter = require('./Shelter');
-import { disconnect } from 'mongoose';
+//
 async function resetSeed() {
   try {
     const today = new Date();
@@ -15,7 +15,7 @@ async function resetSeed() {
     console.log('Deletion error:', error);
   }
 }
-async function seed(fileName: string) {
+export default async function seed(fileName: string) {
   if (process.env.RESET_SEED == 'true') {
     await resetSeed();
     return;
@@ -41,7 +41,6 @@ async function seed(fileName: string) {
       } else {
         try {
           const shelter = new Shelter(shelterData);
-          // const shelter = new Shelter(data[0]);
           shelter.user = '63e6d04dab9210bbfdafea62';
           await shelter.save();
           count++;
@@ -57,9 +56,5 @@ async function seed(fileName: string) {
     console.error('Seeding error:', error);
     console.log('Seeded', count, 'items, before the error occured');
   }
-  // finally {
-  //   disconnect();
-  //   console.log('mongoose disconnected');
-  // }
 }
-module.exports = seed;
+// module.exports = seed;

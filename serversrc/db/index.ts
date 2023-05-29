@@ -1,7 +1,8 @@
 import conn from './conn';
 const User = require('./User');
 const Shelter = require('./Shelter');
-const seed = require('./seed');
+import seed from './seed';
+// const seed = require('./seed');
 // console.log('User moddel?2');
 // console.log(Object.keys(User));
 // console.log(User.schema);
