@@ -1,6 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
-
+import { Loader } from '@googlemaps/js-api-loader';
 export default function SideBar() {
   React.useEffect(() => {
     if (navigator.geolocation) {
@@ -37,6 +37,11 @@ export default function SideBar() {
       alert('Sorry Not available!');
     }
   }, []);
+  const loader = new Loader({
+    apiKey: process.env.GOOGLE_MAPS_API,
+    version: 'quarterly',
+  });
+  console.log('222', loader);
   return (
     <div className="col-4">
       <h3>Shelters Near You</h3>
