@@ -1,5 +1,3 @@
-import { log } from 'console';
-
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { logoutThunk } from '../store/reducers/userSlice';
