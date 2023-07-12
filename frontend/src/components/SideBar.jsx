@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { Loader } from '@googlemaps/js-api-loader';
 export default function SideBar() {
-  React.useEffect(() => {
+  useEffect(() => {
     if (navigator.geolocation) {
       navigator.permissions
         .query({ name: 'geolocation' })
@@ -37,11 +37,20 @@ export default function SideBar() {
       alert('Sorry Not available!');
     }
   }, []);
-  const loader = new Loader({
-    apiKey: process.env.GOOGLE_MAPS_API,
-    version: 'quarterly',
-  });
-  console.log('222', loader);
+  useEffect(() => {
+    const loadmap = async () => {
+      const loader = new Loader({
+        apiKey: process.env.REACT_APP_GOOGLE_MAPS_API,
+        version: 'quarterly',
+        libraries: ['maps'],
+      });
+      console.log('111', process.env.REACT_APP_GOOGLE_MAPS_API);
+      console.log('222', loader);
+      const mp = loader.importLibrary('maps');
+    };
+    loadmap();
+  }, []).importLibrary('maps');
+
   return (
     <div className="col-4">
       <h3>Shelters Near You</h3>
